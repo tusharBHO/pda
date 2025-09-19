@@ -1,7 +1,7 @@
 // app/(routes)/breed/[species]/[breed]/page.jsx
 "use client";
 
-import { breedsData } from "../../../DataBase/components/data";
+import { breedsData } from "./components/data";
 import { useParams, useRouter } from "next/navigation";
 
 export default function BreedDetailPage() {
