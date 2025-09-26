@@ -1,9 +1,8 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BreedResult from "./components/breed-result";
-// import { breedsData } from "../DataBase/components/data"; // import your static data
 import { breedsData } from "../../../util/data";
+import { useParams, useRouter } from "next/navigation";
 
 export default function BreedDetection() {
     const [file, setFile] = useState(null);
@@ -11,6 +10,7 @@ export default function BreedDetection() {
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const router = useRouter();
 
     const handleImageUpload = (event) => {
         const f = event.target.files?.[0];
@@ -73,9 +73,29 @@ export default function BreedDetection() {
         }
     };
 
-    if (result) {
-        return <BreedResult image={preview} result={result} />;
-    }
+    // if (result) {
+    //     return <BreedResult image={preview} result={result} />;
+    // }
+
+    useEffect(() => {
+        if (result) {
+            let species;
+            if (
+                result.breed === "Murrah" ||
+                result.breed === "Toda" ||
+                result.breed === "Jaffrabadi" ||
+                result.breed === "Pandharpuri"
+            ) {
+                species = "Buffalo";
+            } else {
+                species = "Cow";
+            }
+
+            router.push(
+                `/breed/${species}/${result.breed}?confidenceScore=${result.confidence}`
+            );
+        }
+    }, [result, router]);
 
     return (
         <main className="flex min-h-screen items-center justify-center bg-gray-50 pt-12 font-sans">

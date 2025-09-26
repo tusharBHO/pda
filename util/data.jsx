@@ -291,46 +291,6 @@ export const breedsData = {
                 specialNotes: "Very low maintenance feed requirement; suited to drought-prone areas."
             }
         },
-
-        {
-            name: "Pandharpuri",
-            origin: "Maharashtra, India",
-            originInIndia: "Solapur, Kolhapur, Sangli (Maharashtra)",
-            Use: "Dual-purpose, moderate milk and draught",
-            characteristics: "Medium size, hardy, drought tolerant.",
-            Features: "Long horns curving backward; grey/white coat.",
-            temperament: "Calm and manageable.",
-            adaptability: "Adapted to semi-arid regions with high heat tolerance.",
-            image: "/cow_picture.png",
-            Importance: "Good for farmers requiring draught and milk in dry areas.",
-            weight: { male: "400–500 kg", female: "300–400 kg" },
-            description: "Pandharpuri cattle efficiently use low quality feed in dry, hot climates providing draught power with moderate milk.",
-            milkYield: {
-                averagePerDay: "4–6 L",
-                fatPercent: "4.2–4.8%",
-                proteinPercent: "3.2–3.5%",
-                snfPercent: "8.3–8.7%",
-                lactationYield: "1,200–1,500 L",
-                lactationLength: "270–290 days",
-                a2Milk: true,
-            },
-            diet: {
-                mainFeeds: [
-                    "Native dryland grasses",
-                    "Crop residues (millet and sorghum straw)",
-                    "Legumes (cowpea, vigna)",
-                    "Local feed supplements"
-                ],
-                feedingHabits: "Grazes dry grasslands supplemented with crop residues and seasonal concentrates.",
-                nutritionalNeeds: {
-                    crudeProtein: "10-12%",
-                    energyContent: "2.0–2.4 Mcal/kg",
-                    fiberContent: "35-38%",
-                    mineralNeeds: ["Calcium", "Phosphorus"]
-                },
-                specialNotes: "Good feed conversion efficiency on low-nutrient roughages."
-            }
-        },
         {
             name: "Sahiwal",
             origin: "Punjab region (India and Pakistan)",
@@ -373,47 +333,6 @@ export const breedsData = {
                     "Highly efficient with moderate feed inputs; requires balanced minerals to support high milk production and heat resilience.",
             },
         },
-        {
-            name: "Toda",
-            origin: "Nilgiri Hills, Tamil Nadu, India",
-            originInIndia: "Nilgiri Hills (Tamil Nadu)",
-            Use: "Primarily dairy, culturally significant.",
-            characteristics: "Small-sized, rare breed with unique dairy value.",
-            Features: "Dark coat with white markings, medium horns.",
-            temperament: "Docile and closely managed by tribal handlers.",
-            adaptability: "Adapted to cool, hilly climatic conditions.",
-            image: "/cow_picture.png",
-            Importance: "Endangered breed, vital for Toda tribal cultural practices.",
-            weight: { male: "350–400 kg", female: "280–350 kg" },
-            description: "Toda cattle are small, distinct dairy cattle prized for their rich milk used in local traditions.",
-            milkYield: {
-                averagePerDay: "1.5–3 L",
-                fatPercent: "5.0–5.5%",
-                proteinPercent: "3.5–3.8%",
-                snfPercent: "9.0–9.3%",
-                lactationYield: "350–600 L",
-                lactationLength: "270–280 days",
-                a2Milk: true,
-            },
-            diet: {
-                mainFeeds: [
-                    "Natural pasture grasses rich in nutrients",
-                    "Supplemental green fodder",
-                    "Forest vegetation and locally collected feed",
-                ],
-                feedingHabits:
-                    "Free-grazing in cooler hills with supplemental feeding during lean seasons.",
-                nutritionalNeeds: {
-                    crudeProtein: "12-15%",
-                    energyContent: "2.3–2.7 Mcal/kg",
-                    fiberContent: "28-32%",
-                    mineralNeeds: ["Calcium", "Magnesium"],
-                },
-                specialNotes:
-                    "Feed quality varies seasonally; sensitive to low quality feed due to small size.",
-            }
-        }
-
     ],
     Buffalo: [
         {
@@ -491,6 +410,86 @@ export const breedsData = {
                 specialNotes:
                     "Powerful draught animal with strong milk production capability.",
             },
+        },
+        {
+            name: "Toda",
+            origin: "Nilgiri Hills, Tamil Nadu, India",
+            originInIndia: "Nilgiri Hills (Tamil Nadu)",
+            Use: "Primarily dairy, culturally significant.",
+            characteristics: "Small-sized, rare breed with unique dairy value.",
+            Features: "Dark coat with white markings, medium horns.",
+            temperament: "Docile and closely managed by tribal handlers.",
+            adaptability: "Adapted to cool, hilly climatic conditions.",
+            image: "/cow_picture.png",
+            Importance: "Endangered breed, vital for Toda tribal cultural practices.",
+            weight: { male: "350–400 kg", female: "280–350 kg" },
+            description: "Toda cattle are small, distinct dairy cattle prized for their rich milk used in local traditions.",
+            milkYield: {
+                averagePerDay: "1.5–3 L",
+                fatPercent: "5.0–5.5%",
+                proteinPercent: "3.5–3.8%",
+                snfPercent: "9.0–9.3%",
+                lactationYield: "350–600 L",
+                lactationLength: "270–280 days",
+                a2Milk: true,
+            },
+            diet: {
+                mainFeeds: [
+                    "Natural pasture grasses rich in nutrients",
+                    "Supplemental green fodder",
+                    "Forest vegetation and locally collected feed",
+                ],
+                feedingHabits:
+                    "Free-grazing in cooler hills with supplemental feeding during lean seasons.",
+                nutritionalNeeds: {
+                    crudeProtein: "12-15%",
+                    energyContent: "2.3–2.7 Mcal/kg",
+                    fiberContent: "28-32%",
+                    mineralNeeds: ["Calcium", "Magnesium"],
+                },
+                specialNotes:
+                    "Feed quality varies seasonally; sensitive to low quality feed due to small size.",
+            }
+        },
+
+        {
+            name: "Pandharpuri",
+            origin: "Maharashtra, India",
+            originInIndia: "Solapur, Kolhapur, Sangli (Maharashtra)",
+            Use: "Dual-purpose, moderate milk and draught",
+            characteristics: "Medium size, hardy, drought tolerant.",
+            Features: "Long horns curving backward; grey/white coat.",
+            temperament: "Calm and manageable.",
+            adaptability: "Adapted to semi-arid regions with high heat tolerance.",
+            image: "/cow_picture.png",
+            Importance: "Good for farmers requiring draught and milk in dry areas.",
+            weight: { male: "400–500 kg", female: "300–400 kg" },
+            description: "Pandharpuri cattle efficiently use low quality feed in dry, hot climates providing draught power with moderate milk.",
+            milkYield: {
+                averagePerDay: "4–6 L",
+                fatPercent: "4.2–4.8%",
+                proteinPercent: "3.2–3.5%",
+                snfPercent: "8.3–8.7%",
+                lactationYield: "1,200–1,500 L",
+                lactationLength: "270–290 days",
+                a2Milk: true,
+            },
+            diet: {
+                mainFeeds: [
+                    "Native dryland grasses",
+                    "Crop residues (millet and sorghum straw)",
+                    "Legumes (cowpea, vigna)",
+                    "Local feed supplements"
+                ],
+                feedingHabits: "Grazes dry grasslands supplemented with crop residues and seasonal concentrates.",
+                nutritionalNeeds: {
+                    crudeProtein: "10-12%",
+                    energyContent: "2.0–2.4 Mcal/kg",
+                    fiberContent: "35-38%",
+                    mineralNeeds: ["Calcium", "Phosphorus"]
+                },
+                specialNotes: "Good feed conversion efficiency on low-nutrient roughages."
+            }
         },
     ],
 };

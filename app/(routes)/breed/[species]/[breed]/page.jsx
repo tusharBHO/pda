@@ -1,20 +1,25 @@
 // app/(routes)/breed\[species]\[breed]/page.jsx
 "use client";
 import React from "react";
-// import { breedsData } from "./components/data";
 import { breedsData } from "../../../../../util/data";
 import { useParams, useRouter } from "next/navigation";
 import { MdPlace, MdShoppingBag, MdFavoriteBorder, MdLens, MdLocalDrink, MdRestaurant } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+
+import { useSearchParams } from "next/navigation";
 
 export default function Cow_Profile_Page() {
     const { species, breed } = useParams();
     const decodedBreed = decodeURIComponent(breed);
     const router = useRouter();
 
+    const searchParams = useSearchParams();
+    const confidenceScore = searchParams.get("confidenceScore");
+
     const breedData = breedsData[species]?.find(b => b.name === decodedBreed);
     console.log('species', species)
     console.log('breedData', breedData)
+    console.log('confidenceScore', confidenceScore)
 
     if (!breedData) {
         return (
@@ -38,6 +43,13 @@ export default function Cow_Profile_Page() {
                 <div className="text-3xl font-bold pb-5">
                     {breedData?.name}
                 </div>
+
+                {/* Confidence Score only if routed from BreedDetection */}
+                {confidenceScore &&
+                    <div className="text-3xl font-bold pb-5">
+                        {confidenceScore}
+                    </div>
+                }
 
                 {/* Cow Image */}
                 <div className="mb-8">
@@ -172,8 +184,6 @@ export default function Cow_Profile_Page() {
                             </div>
                         </div>
 
-
-
                         {/* Milk Yield Section */}
                         <div className="mt-12">
                             <h2 className="text-xl font-semibold mb-4 flex items-center">
@@ -229,9 +239,6 @@ export default function Cow_Profile_Page() {
                                 <p>{breedData?.diet?.specialNotes}</p>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
