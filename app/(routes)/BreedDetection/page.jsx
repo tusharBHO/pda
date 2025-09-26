@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import BreedResult from "./components/breed-result";
-import { breedsData } from "../DataBase/components/data"; // import your static data
+// import { breedsData } from "../DataBase/components/data"; // import your static data
+import { breedsData } from "../../../util/data";
 
 export default function BreedDetection() {
     const [file, setFile] = useState(null);
