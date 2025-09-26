@@ -4,7 +4,8 @@
 import React from "react";
 import Sidebar from "./components/Sidebar";
 import BreedCard from "./components/BreedCard";
-import { breedsData } from "./components/data";
+// import { breedsData } from "./components/data";
+import { breedsData } from "../../../util/data";
 import SpeciesSection from "./components/SpeciesSection";
 
 

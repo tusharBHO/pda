@@ -1,7 +1,8 @@
 // app/(routes)/breed\[species]\[breed]/page.jsx
 "use client";
 import React from "react";
-import { breedsData } from "./components/data";
+// import { breedsData } from "./components/data";
+import { breedsData } from "../../../../../util/data";
 import { useParams, useRouter } from "next/navigation";
 import { MdPlace, MdShoppingBag, MdFavoriteBorder, MdLens, MdLocalDrink, MdRestaurant } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
