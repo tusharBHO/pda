@@ -11,8 +11,8 @@ export default function HomePage() {
         <p className="text-lg text-gray-700 mb-8 leading-relaxed">
           This platform helps you identify the breed of your cattle using{" "}
           <span className="font-medium text-gray-900">image upload</span> or{" "}
-          <span className="font-medium text-gray-900">camera capture</span>. 
-          Explore our database of indigenous and global breeds to learn more 
+          <span className="font-medium text-gray-900">camera capture</span>.
+          Explore our database of indigenous and global breeds to learn more
           about their characteristics and importance.
         </p>
 

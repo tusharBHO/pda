@@ -1,8 +1,8 @@
-// app/(routes)/BreedDetection/page.jsx
 "use client";
 
 import { useState } from "react";
 import BreedResult from "./components/breed-result";
+import { breedsData } from "../DataBase/components/data"; // import your static data
 
 export default function BreedDetection() {
     const [file, setFile] = useState(null);
@@ -51,7 +51,20 @@ export default function BreedDetection() {
             }
 
             const data = await res.json();
-            setResult(data);
+
+            // 🔍 match predicted breed with breedsData
+            let matchedData = null;
+            for (const species in breedsData) {
+                matchedData = breedsData[species].find(
+                    b => b.name.toLowerCase() === data.breed.toLowerCase()
+                );
+                if (matchedData) {
+                    matchedData = { ...matchedData, species };
+                    break;
+                }
+            }
+
+            setResult({ ...data, details: matchedData });
         } catch (err) {
             setError(err.message || "Something went wrong");
         } finally {

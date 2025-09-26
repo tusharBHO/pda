@@ -4,12 +4,13 @@
 import BreedCard from "./BreedCard";
 
 export default function SpeciesSection({ title, breeds }) {
+
     return (
-        <section className="mb-12">
+        <section className={`mb-12 rounded-xl p-6 ${title === 'Cow' ? 'bg-yellow-100' : 'bg-blue-100'}`}>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">{title}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {breeds.map((breed, idx) => (
-                    <BreedCard key={idx} {...breed} species={title} />
+                    <BreedCard key={idx} breed={breed} species={title} />
                 ))}
             </div>
         </section>
