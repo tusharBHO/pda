@@ -343,7 +343,7 @@ export const breedsData = {
             temperament: "Generally docile but active during breeding season.",
             adaptability:
                 "Performs well under improved management; tolerant to tropical climates.",
-            image: "/buffalo_picture.png",
+            image: "/cow_picture.png",
             Importance:
                 "Renowned for very high butterfat milk, backbone of buffalo dairying.",
             weight: { male: "550–750 kg", female: "450–600 kg" },
@@ -381,7 +381,7 @@ export const breedsData = {
             Features: "Massive curved horns, robust build, black coat.",
             temperament: "Generally docile but powerful",
             adaptability: "Adapted to semi-arid coastal and inland conditions; tolerates heat",
-            image: "/buffalo_picture.png",
+            image: "/cow_picture.png",
             Importance: "High milk yield with rich fat, powerful draught animal.",
             weight: { male: "700–800 kg", female: "650–700 kg" },
             milkYield: {

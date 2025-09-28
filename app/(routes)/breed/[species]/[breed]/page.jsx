@@ -54,7 +54,7 @@ export default function Cow_Profile_Page() {
                 {/* Cow Image */}
                 <div className="mb-8">
                     <img
-                        alt="A Sahiwal cow standing in a grassy field under a clear blue sky."
+                        alt="Image."
                         className="rounded-lg shadow-lg w-full h-auto object-cover max-h-96"
                         src={breedData?.image}
                     />
