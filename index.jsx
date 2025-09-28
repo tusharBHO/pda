@@ -75,8 +75,7 @@ export const breedsData = {
                     "Local oilseed cakes and bran as concentrates",
                 ],
                 feedingHabits:
-                    "Grazes extensively on native and crop residue pastures, supplemented with concentrates during dry periods and
-lactation.",
+                    "Grazes extensively on native and crop residue pastures, supplemented with concentrates during dry periods and lactation.",
 nutritionalNeeds: {
             crudeProtein: "12-15%",
             energyContent: "2.3–2.7 Mcal/kg",
@@ -226,8 +225,7 @@ nutritionalNeeds: {
                                     image: "/cow_picture.png",
                                         Importance: "Well known for endurance and good milk production in harsh climates.",
                                             weight: { male: "525–575 kg", female: "400–450 kg" },
-    description: "Kankrej cattle have strong drought tolerance with milk production and draught utility, thriving under low
-    input in desert areas.",
+    description: "Kankrej cattle have strong drought tolerance with milk production and draught utility, thriving under low input in desert areas.",
     milkYield: {
         averagePerDay: "6–8 L",
             fatPercent: "4.0–4.5%",
@@ -244,8 +242,7 @@ nutritionalNeeds: {
             "Leguminous fodders (guar, cluster beans)",
             "Locally available concentrates"
         ],
-            feedingHabits: "Primarily grazes on hardy vegetation and crop residues; supplemented during lean periods with locally
-available feed concentrates.",
+            feedingHabits: "Primarily grazes on hardy vegetation and crop residues; supplemented during lean periods with locally available feed concentrates.",
         nutritionalNeeds: {
             crudeProtein: "10-13%",
                 energyContent: "2.0–2.4 Mcal/kg",
@@ -268,8 +265,7 @@ available feed concentrates.",
                                     image: "/cow_picture.png",
                                         Importance: "Important traditional draught breed, supports dryland farming.",
                                             weight: { male: "500–600 kg", female: "325–400 kg" },
-    description: "Khillari cattle are robust draught animals with low milk production, adapted for long hours of work under
-harsh conditions.",
+    description: "Khillari cattle are robust draught animals with low milk production, adapted for long hours of work under harsh conditions.",
     milkYield: {
         averagePerDay: "1–3 L",
             fatPercent: "4.0–4.5%",
@@ -308,8 +304,7 @@ harsh conditions.",
                                     image: "/cow_picture.png",
                                         Importance: "Good for farmers requiring draught and milk in dry areas.",
                                             weight: { male: "400–500 kg", female: "300–400 kg" },
-    description: "Pandharpuri cattle efficiently use low quality feed in dry, hot climates providing draught power with
-moderate milk.",
+    description: "Pandharpuri cattle efficiently use low quality feed in dry, hot climates providing draught power with moderate milk.",
     milkYield: {
         averagePerDay: "4–6 L",
             fatPercent: "4.2–4.8%",
@@ -349,9 +344,7 @@ moderate milk.",
                                         Importance: "One of the best dairy breeds in India and Pakistan; popular in tropical regions worldwide.",
                                             weight: { male: "500–600 kg", female: "350–450 kg" },
     description:
-    "The Sahiwal is a premier indigenous dairy breed known for its high milk production, heat tolerance, and resistance to
-    parasites.It originated in the Punjab region, and is widely used in India and Pakistan.Sahiwals have contributed to
-crossbreeding programs globally due to their productivity and resilience.",
+    "The Sahiwal is a premier indigenous dairy breed known for its high milk production, heat tolerance, and resistance to parasites.It originated in the Punjab region, and is widely used in India and Pakistan.Sahiwals have contributed to crossbreeding programs globally due to their productivity and resilience.",
     milkYield: {
         averagePerDay: "8–12 L",
             fatPercent: "4.5–5.5%",
@@ -377,8 +370,7 @@ crossbreeding programs globally due to their productivity and resilience.",
                         mineralNeeds: ["Calcium", "Phosphorus", "Magnesium"],
 },
         specialNotes:
-        "Highly efficient with moderate feed inputs; requires balanced minerals to support high milk production and heat
-        resilience.",
+        "Highly efficient with moderate feed inputs; requires balanced minerals to support high milk production and heat resilience.",
     },
 },
 {
