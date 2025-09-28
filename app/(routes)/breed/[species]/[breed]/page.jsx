@@ -39,17 +39,19 @@ export default function Cow_Profile_Page() {
             </button>
 
             <div className="container mx-auto px-8">
-                {/* Cow Name */}
-                <div className="text-3xl font-bold pb-5">
-                    {breedData?.name}
-                </div>
-
-                {/* Confidence Score only if routed from BreedDetection */}
-                {confidenceScore &&
+                <div className="flex justify-between">
+                    {/* Cow Name */}
                     <div className="text-3xl font-bold pb-5">
-                        {confidenceScore}
+                        {breedData?.name}
                     </div>
-                }
+
+                    {/* Confidence Score only if routed from BreedDetection */}
+                    {confidenceScore &&
+                        <div className="text-3xl font-semibold pb-5">
+                            Confidence Score : {confidenceScore}
+                        </div>
+                    }
+                </div>
 
                 {/* Cow Image */}
                 <div className="mb-8">
