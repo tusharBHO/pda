@@ -1,6 +1,25 @@
+// app/(routes)/Database/components/Sidebar.jsx
 import React from 'react'
 
-const Sidebar = () => {
+const Sidebar = ({
+    searchText,
+    setSearchText,
+    selectedRegions,
+    setSelectedRegions,
+    selectedUses,
+    setSelectedUses,
+    selectedCharacteristics,
+    setSelectedCharacteristics,
+}) => {
+    // helper for checkbox toggle
+    const handleToggle = (value, array, setArray) => {
+        if (array.includes(value)) {
+            setArray(array.filter(v => v !== value));
+        } else {
+            setArray([...array, value]);
+        }
+    };
+
     return (
         <aside className="w-full md:w-64 lg:w-72 flex-shrink-0 rounded-sm h-[90vh] overflow-y-auto">
             <div className="sticky top-0 space-y-4">
@@ -14,36 +33,41 @@ const Sidebar = () => {
                             className="w-full pl-4 pr-4 py-2 rounded-lg bg-surface-light text-black placeholder:text-black border border-black focus:border-primary transition-shadow"
                             placeholder="Search for a specific breed..."
                             type="text"
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
                         />
                     </div>
                 </div>
 
-                {/* Filters */}
+                {/* Region Filter */}
                 <div>
                     <h3 className="text-lg font-semibold mb-2 text-black">Filter by Region</h3>
                     <div className="space-y-2 text-black">
-                        {["North India", "South India", "West India", "East India"].map(
-                            (region) => (
-                                <label key={region} className="flex items-center">
-                                    <input
-                                        className="h-3 w-3 rounded border-gray-300 text-black focus:ring-primary"
-                                        type="checkbox"
-                                    />
-                                    <span className="ml-2 text-xs">{region}</span>
-                                </label>
-                            )
-                        )}
+                        {["North India", "South India","Central India" , "West India", "East India"].map(region => (
+                            <label key={region} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedRegions.includes(region)}
+                                    onChange={() =>
+                                        handleToggle(region, selectedRegions, setSelectedRegions)
+                                    }
+                                />
+                                <span className="ml-2 text-xs">{region}</span>
+                            </label>
+                        ))}
                     </div>
                 </div>
 
+                {/* Use Filter */}
                 <div>
                     <h3 className="text-lg font-semibold mb-2 text-black">Filter by Use</h3>
                     <div className="space-y-2 text-black">
-                        {["Dairy", "Draught", "Dual-Purpose"].map((use) => (
+                        {["Dairy", "Draught", "Dual-Purpose"].map(use => (
                             <label key={use} className="flex items-center">
                                 <input
-                                    className="h-3 w-3 rounded border-gray-300 text-black focus:ring-black"
                                     type="checkbox"
+                                    checked={selectedUses.includes(use)}
+                                    onChange={() => handleToggle(use, selectedUses, setSelectedUses)}
                                 />
                                 <span className="ml-2 text-xs">{use}</span>
                             </label>
@@ -51,25 +75,27 @@ const Sidebar = () => {
                     </div>
                 </div>
 
+                {/* Characteristics Filter */}
                 <div>
                     <h3 className="text-lg font-semibold mb-2 text-black">Filter by Characteristics</h3>
                     <div className="space-y-2 text-black">
-                        {["High Milk Yield", "Disease Resistance", "Heat Tolerant", "High Fat Content"].map(
-                            (trait) => (
-                                <label key={trait} className="flex items-center">
-                                    <input
-                                        className="h-3 w-3 rounded border-gray-300 text-black focus:ring-black"
-                                        type="checkbox"
-                                    />
-                                    <span className="ml-2 text-xs">{trait}</span>
-                                </label>
-                            )
-                        )}
+                        {["High Milk Yield", "Disease Resistance"].map(trait => (
+                            <label key={trait} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedCharacteristics.includes(trait)}
+                                    onChange={() =>
+                                        handleToggle(trait, selectedCharacteristics, setSelectedCharacteristics)
+                                    }
+                                />
+                                <span className="ml-2 text-xs">{trait}</span>
+                            </label>
+                        ))}
                     </div>
                 </div>
             </div>
         </aside>
-    )
-}
+    );
+};
 
 export default Sidebar

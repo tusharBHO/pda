@@ -15,6 +15,11 @@ export const breedsData = {
             Importance:
                 "Known for high butterfat content and strong legs, suitable for both dairy and crossbreeding",
             weight: { male: "900–1,200 kg", female: "600–700 kg" },
+
+            region: "North India",
+            useF: "Dairy",
+            charactF: "High Milk Yield",
+
             milkYield: {
                 averagePerDay: "20–25 L",
                 fatPercent: "4.0–4.5%",
@@ -58,6 +63,11 @@ export const breedsData = {
             Importance:
                 "Valued for endurance in ploughing and moderate milk yield with good fat content.",
             weight: { male: "500–650 kg", female: "400–500 kg" },
+
+            region: "Central India",
+            useF: "Dual-purpose",
+            charactF: "Disease Resistance",
+            
             milkYield: {
                 averagePerDay: "3–5 L",
                 fatPercent: "4.49%",
@@ -101,6 +111,11 @@ export const breedsData = {
             image: "/cow_picture.png",
             Importance: "Top indigenous dairy breed known worldwide for A2 milk production.",
             weight: { male: "500–600 kg", female: "380–475 kg" },
+
+            region: "West India",
+            useF: "Dairy",
+            charactF: "Disease Resistance",
+
             milkYield: {
                 averagePerDay: "10–15 L",
                 fatPercent: "4.5–5.5%",
@@ -144,6 +159,11 @@ export const breedsData = {
             Importance:
                 "Commercial dairy backbone, unmatched milk yield though lower fat percentage.",
             weight: { male: "850–1,100 kg", female: "580–750 kg" },
+
+            region: "North India",
+            useF: "Dairy",
+            charactF: "High Milk Yield",
+            
             milkYield: {
                 averagePerDay: "22–30 L",
                 fatPercent: "3.5–3.8%",
@@ -185,6 +205,10 @@ export const breedsData = {
             Importance:
                 "Traditional South Indian draught cattle, supports agriculture in semi-arid zones.",
             weight: { male: "500–600 kg", female: "325–425 kg" },
+
+            region: "South India",
+            useF: "Draught",
+
             milkYield: {
                 averagePerDay: "2–4 L",
                 fatPercent: "4.0–4.5%",
@@ -225,7 +249,11 @@ export const breedsData = {
             image: "/cow_picture.png",
             Importance: "Well known for endurance and good milk production in harsh climates.",
             weight: { male: "525–575 kg", female: "400–450 kg" },
-            description: "Kankrej cattle have strong drought tolerance with milk production and draught utility, thriving under low input in desert areas.",
+
+            region: "West India",
+            useF: "Dual-purpose",
+            charactF: "Disease Resistance",
+
             milkYield: {
                 averagePerDay: "6–8 L",
                 fatPercent: "4.0–4.5%",
@@ -265,7 +293,10 @@ export const breedsData = {
             image: "/cow_picture.png",
             Importance: "Important traditional draught breed, supports dryland farming.",
             weight: { male: "500–600 kg", female: "325–400 kg" },
-            description: "Khillari cattle are robust draught animals with low milk production, adapted for long hours of work under harsh conditions.",
+
+            region: "Central India",
+            useF: "Draught",
+
             milkYield: {
                 averagePerDay: "1–3 L",
                 fatPercent: "4.0–4.5%",
@@ -303,8 +334,11 @@ export const breedsData = {
             image: "/cow_picture.png",
             Importance: "One of the best dairy breeds in India and Pakistan; popular in tropical regions worldwide.",
             weight: { male: "500–600 kg", female: "350–450 kg" },
-            description:
-                "The Sahiwal is a premier indigenous dairy breed known for its high milk production, heat tolerance, and resistance to parasites. It originated in the Punjab region, and is widely used in India and Pakistan. Sahiwals have contributed to crossbreeding programs globally due to their productivity and resilience.",
+
+            region: "North India",
+            useF: "Dairy",
+            charactF: "High Milk Yield",
+
             milkYield: {
                 averagePerDay: "8–12 L",
                 fatPercent: "4.5–5.5%",
@@ -338,6 +372,7 @@ export const breedsData = {
         {
             name: "Murrah",
             originInIndia: "Haryana, India",
+            Use: "Primarily dairy, culturally significant.",
             characteristics: "World’s best dairy buffalo, high butterfat content.",
             Features: "Jet-black coat, tightly curled horns, compact body.",
             temperament: "Generally docile but active during breeding season.",
@@ -347,6 +382,11 @@ export const breedsData = {
             Importance:
                 "Renowned for very high butterfat milk, backbone of buffalo dairying.",
             weight: { male: "550–750 kg", female: "450–600 kg" },
+
+            region: "North India",
+            useF: "Dairy",
+            charactF: "High Milk Yield",
+
             milkYield: {
                 averagePerDay: "10–15 L",
                 fatPercent: "6.5–7.5%",
@@ -377,6 +417,7 @@ export const breedsData = {
         {
             name: "Jaffrabadi",
             originInIndia: "Gujarat, India",
+            Use: "Primarily dairy, culturally significant.",
             characteristics: "Largest and heaviest Indian buffalo breed, high milk yield.",
             Features: "Massive curved horns, robust build, black coat.",
             temperament: "Generally docile but powerful",
@@ -384,6 +425,11 @@ export const breedsData = {
             image: "/cow_picture.png",
             Importance: "High milk yield with rich fat, powerful draught animal.",
             weight: { male: "700–800 kg", female: "650–700 kg" },
+
+            region: "West India",
+            useF: "Dual-Purpose",
+            charactF: "High Milk Yield",
+
             milkYield: {
                 averagePerDay: "8–12 L",
                 fatPercent: "7.5–8.5%",
@@ -423,7 +469,10 @@ export const breedsData = {
             image: "/cow_picture.png",
             Importance: "Endangered breed, vital for Toda tribal cultural practices.",
             weight: { male: "350–400 kg", female: "280–350 kg" },
-            description: "Toda cattle are small, distinct dairy cattle prized for their rich milk used in local traditions.",
+
+            region: "South India",
+            useF: "Dairy",
+
             milkYield: {
                 averagePerDay: "1.5–3 L",
                 fatPercent: "5.0–5.5%",
@@ -464,7 +513,10 @@ export const breedsData = {
             image: "/cow_picture.png",
             Importance: "Good for farmers requiring draught and milk in dry areas.",
             weight: { male: "400–500 kg", female: "300–400 kg" },
-            description: "Pandharpuri cattle efficiently use low quality feed in dry, hot climates providing draught power with moderate milk.",
+
+            region: "Central India",
+            useF: "Dual-purpose",
+
             milkYield: {
                 averagePerDay: "4–6 L",
                 fatPercent: "4.2–4.8%",
