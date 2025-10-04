@@ -90,8 +90,6 @@ export default function HomePage() {
           </div>
         </div>
 
-
-
         {/* CTA Section */}
         <div className="flex flex-col items-center gap-6 px-4 py-16 text-center sm:pt-34">
           <div className="flex flex-col gap-2">
