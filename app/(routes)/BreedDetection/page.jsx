@@ -1,8 +1,10 @@
+// New Version
 "use client";
 import { useState, useEffect } from "react";
 import BreedResult from "./components/breed-result";
 import { breedsData } from "../../../util/data";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { Upload } from "lucide-react";
 
 export default function BreedDetection() {
     const [file, setFile] = useState(null);
@@ -57,7 +59,7 @@ export default function BreedDetection() {
             let matchedData = null;
             for (const species in breedsData) {
                 matchedData = breedsData[species].find(
-                    b => b.name.toLowerCase() === data.breed.toLowerCase()
+                    (b) => b.name.toLowerCase() === data.breed.toLowerCase()
                 );
                 if (matchedData) {
                     matchedData = { ...matchedData, species };
@@ -72,10 +74,6 @@ export default function BreedDetection() {
             setLoading(false);
         }
     };
-
-    // if (result) {
-    //     return <BreedResult image={preview} result={result} />;
-    // }
 
     useEffect(() => {
         if (result) {
@@ -98,65 +96,82 @@ export default function BreedDetection() {
     }, [result, router]);
 
     return (
-        <main className="flex min-h-screen items-center justify-center bg-gray-50 pt-12 font-sans">
-            <div className="w-full max-w-2xl rounded-lg bg-white p-8 shadow-lg border border-gray-200">
-                <div className="text-center">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-                        Identify Animal Breed
-                    </h2>
-                    <p className="mt-2 text-base text-gray-600">
-                        Upload an image of the animal to identify its breed.
-                    </p>
-                </div>
+        <div className="bg-background-light dark:bg-background-dark font-display text-stone-700  min-h-screen flex flex-col">
+            {/* Header */}
+            <header className="flex items-center p-4 shadow-sm">
+                <button onClick={() => router.back()} className="text-stone-900 ">
+                    <span className="material-symbols-outlined">arrow_back</span>
+                </button>
+                <h1 className="flex-1 text-center text-lg font-bold">
+                    Breed Recognition
+                </h1>
+                <div className="w-8"></div>
+            </header>
 
-                <div className="mt-8">
-                    <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 px-6 py-10 text-center">
+            {/* Main */}
+            <main className="flex-grow px-4 pb-4 flex items-center justify-center">
+                <div className="w-full max-w-2xl">
+                    {/* Heading */}
+                    <div className="text-center pt-5 pb-3">
+                        <h2 className="text-3xl text-gray-800 font-bold">Upload Image</h2>
+                        <p className=" mt-2">
+                            For best results, ensure the animal is clearly visible and
+                            well-lit.
+                        </p>
+                    </div>
+
+                    {/* Upload Box */}
+                    <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-green-600 dark:border-primary/40 bg-[#E4F4DF] p-8 text-center">
                         {preview ? (
                             <img
                                 src={preview}
                                 alt="Uploaded Preview"
-                                className="max-h-64 object-contain rounded-md"
+                                className="max-h-64 object-contain rounded-xl"
                             />
                         ) : (
                             <>
-                                <span className="material-symbols-outlined text-6xl text-gray-400">
-                                    image
-                                </span>
-                                <p className="mt-4 text-lg font-semibold text-gray-800">
-                                    No Image Selected
+                                <Upload className="w-12 h-12 text-primary mb-4 text-green-600" />
+                                <p className="font-bold text-gray-800">
+                                    Drag and drop image here
                                 </p>
-                                <p className="mt-1 text-sm text-gray-500">
-                                    Get started by uploading an image
-                                </p>
+                                <p className="text-sm text-gray-800 my-1">or</p>
+                                <label className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-bold text-stone-900 shadow-sm cursor-pointer">
+                                    Browse Files
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={handleImageUpload}
+                                    />
+                                </label>
                             </>
                         )}
                     </div>
-                </div>
-
-                <div className="flex mt-8">
-                    {!preview ? (
-                        <label className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            <span>Upload Existing Image</span>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleImageUpload}
-                            />
-                        </label>
-                    ) : (
-                        <button
-                            onClick={handleSubmit}
-                            disabled={loading}
-                            className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                        >
-                            {loading ? "Predicting..." : "Submit Image"}
-                        </button>
+                    {/* ✅ Professional Note about file types (show only when no file is selected) */}
+                    {!preview && (
+                        <p className="text-xs text-gray-600 mt-3 text-center italic">
+                            Only <span className="font-semibold">PNG</span> and{" "}
+                            <span className="font-semibold">JPG</span> files are allowed.
+                        </p>
                     )}
-                </div>
 
-                {error && <p className="mt-4 text-center text-red-500">{error}</p>}
-            </div>
-        </main>
+                    {/* Submit Button */}
+                    <div className="mt-6">
+                        {preview && (
+                            <button
+                                onClick={handleSubmit}
+                                disabled={loading}
+                                className="w-full rounded-lg bg-gradient-to-r from-green-600 to-green-700  py-3 text-center font-bold text-white  shadow-lg shadow-primary/30 disabled:opacity-50 cursor-pointer hover:shadow-xl hover:scale-102 transition-all duration-300 ease-in-out flex items-center justify-center gap-2"
+                            >
+                                {loading ? "Predicting..." : "Recognize Breed"}
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Error Message */}
+                    {error && <p className="mt-4 text-center text-red-500">{error}</p>}
+                </div>
+            </main>
+        </div>
     );
 }
