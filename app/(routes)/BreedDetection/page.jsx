@@ -1,3 +1,4 @@
+// app/(routes)/BreedDetection/page.jsx
 // New Version
 "use client";
 import { useState, useEffect } from "react";
@@ -75,25 +76,31 @@ export default function BreedDetection() {
         }
     };
 
-    useEffect(() => {
-        if (result) {
-            let species;
-            if (
-                result.breed === "Murrah" ||
-                result.breed === "Toda" ||
-                result.breed === "Jaffrabadi" ||
-                result.breed === "Pandharpuri"
-            ) {
-                species = "Buffalo";
-            } else {
-                species = "Cow";
-            }
+    // COMMENT THE BELOW BLOCK
+    // useEffect(() => {
+    //     if (result) {
+    //         let species;
+    //         if (
+    //             result.breed === "Murrah" ||
+    //             result.breed === "Toda" ||
+    //             result.breed === "Jaffrabadi" ||
+    //             result.breed === "Pandharpuri"
+    //         ) {
+    //             species = "Buffalo";
+    //         } else {
+    //             species = "Cow";
+    //         }
 
-            router.push(
-                `/breed/${species}/${result.breed}?confidenceScore=${result.confidence}`
-            );
-        }
-    }, [result, router]);
+    //         router.push(
+    //             `/breed/${species}/${result.breed}?confidenceScore=${result.confidence}`
+    //         );
+    //     }
+    // }, [result, router]);
+
+    // ADD THIS ONE, SO IT WILL ALWAYS DIRECT WITH DUMMY DATA
+    router.push(
+        `/breed/Buffalo/Jaffrabadi?confidenceScore=0.95`
+    );
 
     return (
         <div className="bg-background-light dark:bg-background-dark font-display text-stone-700  min-h-screen flex flex-col">

@@ -24,7 +24,9 @@ export default function ChatPage() {
     return (
         <>
             <div className="h-screen w-screen flex items-center justify-center">
-                <p className="text-gray-500">Loading chatbot...</p>
+                <pre className="text-gray-500">Loading chatbot...
+                    Currently in development phase!
+                </pre>
             </div>
 
             <Script id="chatbase-fullscreen" strategy="afterInteractive">

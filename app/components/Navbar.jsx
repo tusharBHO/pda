@@ -16,7 +16,7 @@ const Navbar = () => {
     { name: "BreedDetection", href: "/BreedDetection" },
     { name: "Database", href: "/Database" },
     { name: "HowItWorks", href: "/how-it-works" },
-    { name: "ChatBot", href: "/chatBot" },
+    // { name: "ChatBot", href: "/chatBot" },
   ];
 
   return (

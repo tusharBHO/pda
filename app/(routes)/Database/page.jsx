@@ -40,7 +40,7 @@ export default function BreedsPage() {
     return (
         <div className="font-display text-content-light h-[100vh] pt-10">
             <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-                <div className="flex flex-col md:flex-row gap-5 pt-7">
+                <div className="flex flex-col md:flex-row md:gap-5 pt-7">
                     {/* Sidebar */}
                     <Sidebar
                         searchText={searchText}
@@ -55,7 +55,7 @@ export default function BreedsPage() {
 
                     {/* Main Content */}
                     <div className=" rounded-2xl shadow-2xl">
-                        <main className="flex-grow rounded-sm h-[83vh] overflow-y-auto p-2 mt-2">
+                        <main className="flex-grow rounded-sm h-[88vh] overflow-y-auto p-2 mt-2">
                             {Object.keys(filteredBreedsData).map((species, idx) => {
                                 console.log("Filtered breeds for", species, ":", filteredBreedsData[species]);
                                 return (
