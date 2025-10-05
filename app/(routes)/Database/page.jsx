@@ -1,3 +1,4 @@
+// New Version
 // app/(routes)/Database/page.jsx
 "use client";
 import React, { useState, useMemo } from "react";
@@ -38,37 +39,38 @@ export default function BreedsPage() {
     }, [searchText, selectedRegions, selectedUses, selectedCharacteristics]);
 
     return (
-        <div className="font-display text-content-light h-[100vh] pt-10">
-            <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-                <div className="flex flex-col md:flex-row md:gap-5 pt-7">
-                    {/* Sidebar */}
-                    <Sidebar
-                        searchText={searchText}
-                        setSearchText={setSearchText}
-                        selectedRegions={selectedRegions}
-                        setSelectedRegions={setSelectedRegions}
-                        selectedUses={selectedUses}
-                        setSelectedUses={setSelectedUses}
-                        selectedCharacteristics={selectedCharacteristics}
-                        setSelectedCharacteristics={setSelectedCharacteristics}
-                    />
+        <div className="font-display text-content-light h-[100vh] pt-12">
+            <div className="flex flex-col">
+                {/* Content */}
+                <div className="">
+                    <div className="container px-4 sm:px-4 mx-auto">
+                        <div className="flex flex-col md:flex-row gap-2 pt-7">
+                            {/* Sidebar */}
+                            <Sidebar
+                                searchText={searchText}
+                                setSearchText={setSearchText}
+                                selectedRegions={selectedRegions}
+                                setSelectedRegions={setSelectedRegions}
+                                selectedUses={selectedUses}
+                                setSelectedUses={setSelectedUses}
+                                selectedCharacteristics={selectedCharacteristics}
+                                setSelectedCharacteristics={setSelectedCharacteristics}
+                            />
 
-                    {/* Main Content */}
-                    <div className=" rounded-2xl shadow-2xl">
-                        <main className="flex-grow rounded-sm h-[88vh] overflow-y-auto p-2 mt-2">
-                            {Object.keys(filteredBreedsData).map((species, idx) => {
-                                console.log("Filtered breeds for", species, ":", filteredBreedsData[species]);
-                                return (
-                                    <SpeciesSection
-                                        key={idx}
-                                        title={species}
-                                        breeds={filteredBreedsData[species]}
-                                    />
-                                );
-                            })}
-                        </main>
+                            {/* Main Content */}
+                            <div className="bg-white rounded-2xl shadow-2xl">
+                                <main className="flex-grow rounded-sm h-[83vh] overflow-y-auto p-2 mt-2">
+                                    {Object.keys(filteredBreedsData).map((species, idx) => (
+                                        <SpeciesSection
+                                            key={idx}
+                                            title={species}
+                                            breeds={filteredBreedsData[species]}
+                                        />
+                                    ))}
+                                </main>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>

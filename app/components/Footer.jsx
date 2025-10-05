@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="w-full py-5 flex justify-center">
         <span className="text-sm text-center">
           © 2025{" "}
-          <a href="https://flowbite.com/" className="hover:underline">
+          <a href="" className="hover:underline">
             Bharat Pashudhan™
           </a>
           . All Rights Reserved.
