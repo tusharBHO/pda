@@ -55,19 +55,28 @@ export default function BreedDetection() {
 
             const data = await res.json();
 
-            // 🔍 match predicted breed with breedsData
-            let matchedData = null;
-            for (const species in breedsData) {
-                matchedData = breedsData[species].find(
-                    (b) => b.name.toLowerCase() === data.breed.toLowerCase()
-                );
-                if (matchedData) {
-                    matchedData = { ...matchedData, species };
-                    break;
+            console.log('data :', data)
+            console.log('data?.quality?.status :', data?.quality?.status)
+
+            if (data?.quality?.status == "ok") {
+                // 🔍 match predicted breed with breedsData
+                let matchedData = null;
+                for (const species in breedsData) {
+                    matchedData = breedsData[species].find(
+                        (b) => b.name.toLowerCase() === data.breed.toLowerCase()
+                    );
+                    if (matchedData) {
+                        matchedData = { ...matchedData, species };
+                        break;
+                    }
                 }
+
+                setResult({ ...data, details: matchedData });
+            }else{
+                alert("Image quality is poor. Please upload a clearer image.");
+                setPreview(null);
             }
 
-            setResult({ ...data, details: matchedData });
         } catch (err) {
             setError(err.message || "Something went wrong");
         } finally {
@@ -95,11 +104,6 @@ export default function BreedDetection() {
             );
         }
     }, [result, router]);
-
-    // ADD THIS ONE, SO IT WILL ALWAYS DIRECT WITH DUMMY DATA
-    // router.push(
-    //     `/breed/Buffalo/Jaffrabadi?confidenceScore=0.95`
-    // );
 
     return (
         <div className="bg-background-light dark:bg-background-dark font-display text-stone-700  min-h-screen flex flex-col">
