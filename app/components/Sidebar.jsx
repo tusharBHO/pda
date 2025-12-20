@@ -1,3 +1,4 @@
+/* Theme-Updated */
 "use client";
 
 import Link from "next/link";
@@ -6,31 +7,42 @@ import { X } from "lucide-react";
 const Sidebar = ({ isOpen, onClose, navItems }) => {
   return (
     <div
-      className={`fixed inset-0 z-50 bg-black/50 transition-opacity duration-300 ${
-        isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed inset-0 z-50 transition-opacity duration-300
+        ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
+      `}
+      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
       onClick={onClose}
     >
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-white shadow-xl p-6 transform transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed top-0 left-0 h-full w-full p-6
+          transform transition-transform duration-300 shadow-xl
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
+        style={{ backgroundColor: "var(--background)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-end items-center mb-8">
-
-          <button onClick={onClose}>
+        {/* Close Button */}
+        <div className="flex justify-end mb-8">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full hover-shadow"
+          >
             <X className="w-7 h-7" />
           </button>
         </div>
 
+        {/* Navigation */}
         <nav className="flex flex-col gap-4">
           {navItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-gray-700 font-medium hover:text-blue-600 py-2 text-2xl"
               onClick={onClose}
+              className="
+                text-2xl font-medium py-2 px-3 rounded-lg
+                transition-all duration-200
+                hover:bg-[var(--secondary)]
+              "
             >
               {item.name}
             </Link>

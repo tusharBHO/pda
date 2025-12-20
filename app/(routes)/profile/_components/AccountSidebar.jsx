@@ -1,3 +1,4 @@
+// Theme-Update
 "use client";
 import { ArrowLeft, X } from "lucide-react";
 import Link from "next/link";
@@ -13,7 +14,6 @@ export default function AccountSidebar({
 
     const tabs = [
         { name: "Account", key: "account", path: "/profile/account" },
-        { name: "Preferences", key: "preferences", path: "/profile/preferences" },
         { name: "Contact", key: "contact", path: "/profile/contact" },
     ];
 
@@ -40,47 +40,6 @@ export default function AccountSidebar({
                 </button>
             </div>
 
-            {/* Sidebar Links */}
-            {/* <div className="flex flex-col space-x-4 md:space-x-0 md:space-y-2">
-                <p
-                    onClick={() => {
-                        setActiveTab("account");
-                        closeSidebar();
-                    }}
-                    className={`py-2 px-3 rounded-md cursor-pointer font-medium text-sm ${activeTab === "account"
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50"
-                        }`}
-                >
-                    Account
-                </p>
-
-                <p
-                    onClick={() => {
-                        setActiveTab("preferences");
-                        closeSidebar();
-                    }}
-                    className={`py-2 px-3 rounded-md cursor-pointer font-medium text-sm ${activeTab === "preferences"
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50"
-                        }`}
-                >
-                    Preferences
-                </p>
-
-                <p
-                    onClick={() => {
-                        setActiveTab("contact");
-                        closeSidebar();
-                    }}
-                    className={`py-2 px-3 rounded-md cursor-pointer font-medium text-sm ${activeTab === "contact"
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50"
-                        }`}
-                >
-                    Contact
-                </p>
-            </div> */}
             <div className="flex flex-col md:space-y-2 space-x-4 md:space-x-0">
                 {tabs.map(({ name, key, path }) => {
                     const isActive = activeTab === key;

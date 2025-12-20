@@ -1,3 +1,4 @@
+// Theme-Update
 "use client";
 import Link from "next/link";
 
@@ -19,9 +20,9 @@ export default function ProfileCard({ user, signOut, profileOpen, setProfileOpen
                 className="fixed right-4 top-16 w-80 bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 ease-out z-[9999]"
             >
                 {/* Header */}
-                <div className="relative h-24 bg-gradient-to-r from-blue-500 to-blue-700">
+                <div className="relative h-24 bg-gradient-to-r from-green-500 to-green-700">
                     <img
-                        src="https://www.shutterstock.com/shutterstock/videos/3616833015/thumb/1.jpg?ip=x480"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeyOrtvFtfc6bikgiU6R5hXrqD274Ly_ripw&s"
                         alt="background"
                         className="absolute inset-0 w-full h-full object-cover opacity-40"
                     />
@@ -46,18 +47,11 @@ export default function ProfileCard({ user, signOut, profileOpen, setProfileOpen
                         <Link
                             href="/profile/account"
                             onClick={() => setProfileOpen(false)}
-                            className="cursor-pointer w-3/4 bg-blue-50 text-black hover:text-blue-600 font-medium text-sm py-2 rounded-lg hover:bg-blue-100 transition"
+                            className="cursor-pointer w-3/4 bg-blue-50 text-black hover:text-green-600 font-medium text-sm py-2 rounded-lg hover:bg-blue-100 transition"
                         >
                             Account
                         </Link>
 
-                        <Link
-                            href="/profile/preferences"
-                            onClick={() => setProfileOpen(false)}
-                            className="cursor-pointer w-3/4 bg-blue-50 text-black hover:text-blue-600 font-medium text-sm py-2 rounded-lg hover:bg-blue-100 transition"
-                        >
-                            Preferences
-                        </Link>
                     </div>
 
                     <hr className="my-4" />

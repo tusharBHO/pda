@@ -1,26 +1,112 @@
+/* Theme-Updated */
 @import "tailwindcss";
 
+/* =========================
+   GLOBAL THEME VARIABLES
+========================= */
+
+/* 🌞 LIGHT THEME (DEFAULT) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* main background */
+  --text-color: #1f2937; /* primary text (gray-800) */
+  --secondary-bg: #f0fdfd; /* cards, sidebar, etc. (light green) */
+  --border-color: #e5e7eb; /* gray-200 for borders */
+  --primary: #2e7d32; /* main green */
+  --accent: #8d6e63; /* accent color */
+  --placeholder-color: rgba(0, 0, 0, 0.45); /* input placeholders */
 }
 
+/* 🌙 DARK THEME */
+[data-theme="dark"] {
+  --background: #121212;
+  --text-color: #e5e7eb; /* gray-200 */
+  --secondary-bg: #1e1e1e; /* cards, sidebar */
+  --border-color: #374151; /* gray-700 */
+  --primary: #1b5e20;
+  --accent: #66bb6a;
+  --placeholder-color: rgba(255, 255, 255, 0.55);
+}
+
+/* =========================
+   TAILWIND THEME OVERRIDES
+========================= */
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-foreground: var(--text-color);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ededed;
-    --foreground: #0a0a0a;
-  }
+/* =========================
+   GLOBAL BODY STYLES
+========================= */
+body {
+  background-color: var(--background);
+  color: var(--text-color);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* =========================
+   PLACEHOLDER COLORS
+========================= */
+::placeholder {
+  color: var(--placeholder-color);
+  opacity: 1;
+}
+
+/* =========================
+   CARD & COMPONENT BACKGROUNDS
+========================= */
+.bg-secondary {
+  background-color: var(--secondary-bg);
+}
+
+.border-theme {
+  border-color: var(--border-color);
+}
+
+.text-theme {
+  color: var(--text-color);
+}
+
+.button-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.button-accent {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+/* =========================
+   SHADOWS & TRANSITIONS
+========================= */
+.shadow-theme {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transition-theme {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* =========================
+   INPUT FOCUS
+========================= */
+input,
+textarea,
+select {
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
 }
