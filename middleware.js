@@ -1,23 +1,61 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+// middleware.js - FIXED VERSION
+import { Ratelimit } from "@upstash/ratelimit";
+import { kv } from "@vercel/kv";
+import { NextResponse } from "next/server";
 
-// ✅ Add more public routes here
-const isPublicRoute = createRouteMatcher([
-    "/(auth)/sign-in(.*)", // sign-in + nested routes
-    "/(auth)/sign-up(.*)", // sign-up + nested routes
-    "/",                   // homepage
-    "/api/predict",        // 👈 allow API proxy without login
-    "/upload",             // 👈 allow upload page without login (optional)
-]);
-
-export default clerkMiddleware(async (auth, req) => {
-    if (!isPublicRoute(req)) {
-        await auth.protect(); // redirect if not logged in
-    }
+const ratelimit = new Ratelimit({
+  redis: kv,
+  limiter: Ratelimit.slidingWindow(1, "300 s"),
 });
 
+// ✅ SIMPLER + BULLETPROOF public route check
+const publicPaths = [
+  "/",
+  "/sign-in",
+  "/sign-up", 
+  "/how-it-works",
+  "/terms",
+];
+
+export async function middleware(req) {
+  const { pathname } = req.nextUrl;
+
+  // 1. AUTH PROTECTION (SIMPLE EXACT MATCH)
+  const isPublic = publicPaths.some(path => pathname === path || pathname.startsWith(path + "/"));
+  
+  if (!isPublic) {
+    const sessionId = req.cookies.get("__session")?.value;
+    if (!sessionId) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/sign-in";
+      return NextResponse.redirect(url);
+    }
+  }
+
+  // 2. RATE LIMIT (unchanged)
+  if (pathname === "/api/predict") {
+    const sessionId = req.cookies.get("__session")?.value;
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+    const identifier =
+      (sessionId && `session:${sessionId.slice(0, 32)}`) ||
+      (ip && `ip:${ip}`) ||
+      "anonymous";
+
+    const { success } = await ratelimit.limit(identifier);
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please wait 5 minutes." },
+        { status: 429 }
+      );
+    }
+  }
+
+  return NextResponse.next();
+}
+
 export const config = {
-    matcher: [
-        "/((?!.*\\..*|_next).*)", // everything except static files & _next
-        "/",                      // homepage
-    ],
+  matcher: [
+    "/((?!.*\\..*|_next/static|_next/image|favicon.ico).*)",
+    "/api/(.*)",
+  ],
 };

@@ -1,12 +1,21 @@
-// Theme-Update
+// app/(routes)/Database/components/BreedCard.jsx
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const BreedCard = ({ breed, species }) => {
   const router = useRouter();
 
-  const handleClick = () => router.push(`/breed/${species}/${breed.name}`);
+  // const handleClick = () => router.push(`/breed/${species}/${breed.name}`);
+  const handleClick = () => {
+    if (!breed?.name) {
+      toast.error("Breed data is incomplete");
+      return;
+    }
+    toast("Loading breed details..."); // neutral/info toast
+    router.push(`/breed/${species}/${breed.name}`);
+  };
 
   return (
     <div

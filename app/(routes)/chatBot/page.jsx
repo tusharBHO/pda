@@ -1,14 +1,12 @@
-// Theme-Update
-"use client";
-
-import Script from "next/script";
+// app/(routes)/chatBot/page.jsx
 import { useEffect } from "react";
+import Script from "next/script";
+import { toast } from "sonner";
 
 export default function ChatPage() {
-    useEffect(() => {
-        // Optional: remove floating styles if Chatbase adds any
-        const style = document.createElement("style");
-        style.innerHTML = `
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.innerHTML = `
       iframe#chatbase-iframe {
         position: fixed !important;
         top: 0 !important;
@@ -19,36 +17,41 @@ export default function ChatPage() {
         border: none !important;
       }
     `;
-        document.head.appendChild(style);
-    }, []);
+    document.head.appendChild(style);
+  }, []);
 
-    return (
-        <>
-            <div className="h-screen w-screen flex items-center justify-center">
-                <pre className="text-gray-500">Loading chatbot...
-                    Currently in development phase!
-                </pre>
-            </div>
+  const handleScriptLoad = () => {
+    toast.success("Chatbot loaded successfully!");
+  };
 
-            <Script id="chatbase-fullscreen" strategy="afterInteractive">
-                {`
+  const handleScriptError = () => {
+    toast.error("Failed to load chatbot. Please try again later.");
+  };
+
+  return (
+    <>
+      <div className="h-screen w-screen flex items-center justify-center">
+        <pre className="text-gray-500">
+          Loading chatbot... Currently in development phase!
+        </pre>
+      </div>
+
+      <Script
+        id="chatbase-fullscreen"
+        strategy="afterInteractive"
+        onLoad={handleScriptLoad}
+        onError={handleScriptError}
+      >
+        {`
           (function(){
             if(!window.chatbase || window.chatbase("getState")!=="initialized"){
-                window.chatbase=(...arguments)=>{
-                    if(!window.chatbase.q){window.chatbase.q=[]}
-                    window.chatbase.q.push(arguments)
-                };
-                window.chatbase=new Proxy(window.chatbase,{
-                    get(target,prop){
-                        if(prop==="q"){return target.q}
-                        return(...args)=>target(prop,...args)
-                    }
-                })
+                window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};
+                window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q} return(...args)=>target(prop,...args)}});
             }
             const onLoad=function(){
                 const script=document.createElement("script");
                 script.src="https://www.chatbase.co/embed.min.js";
-                script.id="KKjy5Lt7pnxwB8ep0FhFd"; // your teammate’s bot ID
+                script.id="KKjy5Lt7pnxwB8ep0FhFd";
                 script.domain="www.chatbase.co";
                 document.body.appendChild(script)
             };
@@ -56,7 +59,7 @@ export default function ChatPage() {
             else{window.addEventListener("load",onLoad)}
           })();
         `}
-            </Script>
-        </>
-    );
+      </Script>
+    </>
+  );
 }

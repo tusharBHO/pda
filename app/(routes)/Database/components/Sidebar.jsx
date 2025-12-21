@@ -1,4 +1,4 @@
-// Theme-Update
+// app/(routes)/Database/components/Sidebar.jsx
 "use client";
 import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";

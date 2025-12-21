@@ -1,5 +1,7 @@
-// Theme-Updated
+// app/components/ContactUs.jsx
+"use client";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -7,16 +9,48 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Thank you for contacting us!");
-    setFormData({ name: "", email: "", message: "" });
+
+    const { name, email, message } = formData;
+
+    // 🔔 Validation toasts
+    if (!name.trim()) {
+      toast.warning("Please enter your name");
+      return;
+    }
+    if (!email.trim()) {
+      toast.warning("Please enter your email");
+      return;
+    }
+    if (!message.trim()) {
+      toast.warning("Please write a message");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const toastId = toast.loading("Sending your message...");
+
+      // ⏳ Simulate API call (replace with real API later)
+      await new Promise((res) => setTimeout(res, 1500));
+
+      toast.success("Message sent successfully! 📩", {
+        id: toastId,
+      });
+
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,7 +73,7 @@ const ContactUs = () => {
             className="w-full p-2.5 rounded-lg border border-gray-300
               bg-transparent focus:outline-none
               focus:ring-2 focus:ring-green-400"
-            required
+            disabled={loading}
           />
 
           <input
@@ -51,7 +85,7 @@ const ContactUs = () => {
             className="w-full p-2.5 rounded-lg border border-gray-300
               bg-transparent focus:outline-none
               focus:ring-2 focus:ring-green-400"
-            required
+            disabled={loading}
           />
 
           <textarea
@@ -63,15 +97,17 @@ const ContactUs = () => {
             className="w-full p-2.5 rounded-lg border border-gray-300
               bg-transparent resize-none focus:outline-none
               focus:ring-2 focus:ring-green-400"
-            required
+            disabled={loading}
           />
 
           <button
             type="submit"
+            disabled={loading}
             className="mt-3 py-2.5 bg-green-600 text-white
-              font-semibold rounded-lg hover:bg-green-700 transition-colors"
+              font-semibold rounded-lg hover:bg-green-700
+              disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
           >
-            Send Message
+            {loading ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>

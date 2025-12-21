@@ -1,4 +1,4 @@
-/* Theme-Updated */
+// app/components/Navbar.jsx
 "use client";
 
 import Link from "next/link";

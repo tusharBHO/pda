@@ -1,6 +1,6 @@
-// Theme-Update
+// app/(routes)/breed/[species]/[breed]/page.js
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { breedsData } from "../../../../../util/data";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -11,6 +11,7 @@ import {
   MdRestaurant,
 } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { toast } from "sonner"; // ✅ import toast
 
 export default function BreedProfilePage() {
   const { species, breed } = useParams();
@@ -22,6 +23,18 @@ export default function BreedProfilePage() {
   const breedData = breedsData[species]?.find(
     (b) => b.name === decodedBreed
   );
+
+  // ✅ Toast on page load for testing
+  useEffect(() => {
+    if (breedData) {
+      toast.success(`Loaded breed: ${breedData.name}`, { duration: 3000 });
+      if (confidenceScore) {
+        toast(`Confidence Score: ${confidenceScore}`, { variant: "info", duration: 3000 });
+      }
+    } else {
+      toast.error("Breed not found", { duration: 3000 });
+    }
+  }, [breedData, confidenceScore]);
 
   if (!breedData) {
     return (

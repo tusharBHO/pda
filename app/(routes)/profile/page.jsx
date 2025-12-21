@@ -1,4 +1,3 @@
-// Theme-Update
 // app/(routes)/profile/page.jsx
 import { redirect } from "next/navigation";
 

@@ -1,10 +1,12 @@
-/* Theme-Updated */
 // app/layout.js
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { ClerkProvider } from "@clerk/nextjs";
-import Script from "next/script"; // 👈 import Script
+import Script from "next/script";
+import { Toaster } from "sonner";
+import LoginToastListener from "./components/LoginToastListener"; // ✅ add this
+import OfflineBanner from "./components/OfflineBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +31,23 @@ export default function RootLayout({ children }) {
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <Navbar />
+          <OfflineBanner />
+
+          {/* Global Toast Container */}
+          <Toaster
+            position="top-right"
+            richColors
+            closeButton
+            theme="system"
+            duration={3500}
+          />
+
+          {/* ✅ Login Toast (Client Component) */}
+          <LoginToastListener />
+
           <main className="pt-0">{children}</main>
 
-          {/* ✅ Chatbase Chatbot Embed */}
+          {/* Chatbase Chatbot */}
           <Script id="chatbase-embed" strategy="afterInteractive">
             {`
               (function(){
@@ -50,7 +66,7 @@ export default function RootLayout({ children }) {
                 const onLoad=function(){
                     const script=document.createElement("script");
                     script.src="https://www.chatbase.co/embed.min.js";
-                    script.id="KKjy5Lt7pnxwB8ep0FhFd"; // 👈 your teammate’s Chatbase bot ID
+                    script.id="KKjy5Lt7pnxwB8ep0FhFd";
                     script.domain="www.chatbase.co";
                     document.body.appendChild(script)
                 };

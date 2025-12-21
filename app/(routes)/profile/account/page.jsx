@@ -1,8 +1,9 @@
-// Theme-Update
+// app/(routes)/profile/account/page.jsx
 "use client";
 
 import { useUser, useClerk } from "@clerk/nextjs";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function AccountDetails() {
   const { user } = useUser();
@@ -14,30 +15,58 @@ export default function AccountDetails() {
 
   const handleNameChange = async () => {
     if (!name.trim()) return;
-    await user.update({
-      firstName: name.split(" ")[0],
-      lastName: name.split(" ")[1] || "",
-    });
-    setIsEditingName(false);
+
+    const toastId = toast.loading("Updating name...");
+    try {
+      await user.update({
+        firstName: name.split(" ")[0],
+        lastName: name.split(" ")[1] || "",
+      });
+      setIsEditingName(false);
+      toast.success("Name updated successfully!", { id: toastId });
+    } catch {
+      toast.error("Failed to update name. Try again.", { id: toastId });
+    }
   };
 
   const handleAvatarChange = async (e) => {
     const file = e.target.files[0];
-    if (file) await user.setProfileImage({ file });
+    if (!file) return;
+
+    const toastId = toast.loading("Updating avatar...");
+    try {
+      await user.setProfileImage({ file });
+      toast.success("Avatar updated successfully!", { id: toastId });
+    } catch {
+      toast.error("Failed to update avatar. Try again.", { id: toastId });
+    }
   };
 
   const handleConfirm = async () => {
-    if (modalType === "signOut") {
-      await signOut();
-    } else if (modalType === "signOutAll") {
-      await signOut({ session: "all" });
-    } else if (modalType === "delete") {
-      await user.delete();
-      await signOut({ redirectUrl: "/" });
-    }
-    setModalType(null);
-  };
+    const toastId = toast.loading("Processing...");
+    try {
+      sessionStorage.removeItem("signin-toast-shown");
 
+      if (modalType === "signOut") {
+        await signOut();
+        toast.success("Signed out successfully!", { id: toastId });
+      } 
+      else if (modalType === "signOutAll") {
+        await signOut({ session: "all" });
+        toast.success("Signed out from all sessions!", { id: toastId });
+      } 
+      else if (modalType === "delete") {
+        await user.delete();
+        await signOut({ redirectUrl: "/" });
+        toast.success("Account deleted successfully!", { id: toastId });
+      }
+    } catch {
+      toast.error("Action failed. Please try again.", { id: toastId });
+    } finally {
+      setModalType(null);
+    }
+  };
+  
   return (
     <div className="max-w-2xl w-full space-y-6">
 

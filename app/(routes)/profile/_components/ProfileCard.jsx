@@ -1,6 +1,7 @@
-// Theme-Update
+// app/(routes)/profile/_components/ProfileCard.jsx
 "use client";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function ProfileCard({ user, signOut, profileOpen, setProfileOpen }) {
     if (!profileOpen) return null;
@@ -56,10 +57,16 @@ export default function ProfileCard({ user, signOut, profileOpen, setProfileOpen
 
                     <hr className="my-4" />
 
+                    {/* Logout button */}
                     <button
-                        onClick={() => {
+                        onClick={async () => {
                             setProfileOpen(false);
-                            signOut({ redirectUrl: "/" });
+                            try {
+                                await signOut({ redirectUrl: "/" });
+                                toast.success("Logged out successfully!");
+                            } catch (err) {
+                                toast.error("Logout failed. Please try again.");
+                            }
                         }}
                         className="cursor-pointer w-3/4 mx-auto bg-red-50 text-red-600 hover:bg-red-100 font-medium py-2 rounded-lg transition"
                     >

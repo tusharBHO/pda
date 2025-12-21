@@ -1,4 +1,4 @@
-// Theme-Update
+// app/(routes)/profile/_components/AccountSidebar.jsx
 "use client";
 import { ArrowLeft, X } from "lucide-react";
 import Link from "next/link";

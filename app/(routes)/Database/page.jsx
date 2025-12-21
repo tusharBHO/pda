@@ -1,5 +1,7 @@
-// Theme-Update
-"use client";
+// app/(routes)/Database/page.jsx
+'use client'
+import { toast } from "sonner";
+import { useEffect } from "react";
 import React, { useState, useMemo } from "react";
 import Sidebar from "./components/Sidebar";
 import SpeciesSection from "./components/SpeciesSection";
@@ -29,6 +31,14 @@ export default function BreedsPage() {
     });
     return result;
   }, [searchText, selectedRegions, selectedUses, selectedCharacteristics]);
+
+  // Toast for empty results
+  useEffect(() => {
+    const totalBreeds = Object.values(filteredBreedsData).flat().length;
+    if (totalBreeds === 0) {
+      toast.error("No breeds match your search and filter criteria.");
+    }
+  }, [filteredBreedsData]);
 
   return (
     <div className="font-display h-[100vh] pt-12 bg-background text-theme transition-theme">

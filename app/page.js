@@ -1,7 +1,6 @@
-/* Theme-Updated */
+// app/page.js
 "use client";
 
-// app/page.js
 import Link from "next/link";
 import { Search, BarChart3, Users } from "lucide-react";
 import ContactUs from "./components/ContactUs";
@@ -57,41 +56,41 @@ export default function HomePage() {
             </p>
           </div>
 
-<div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-  {[
-    {
-      icon: <Search className="w-6 h-6" />,
-      title: "Accurate Identification",
-      text: "Our tool uses advanced ML algorithms to accurately identify cattle and buffalo breeds from images.",
-    },
-    {
-      icon: <BarChart3 className="w-6 h-6" />,
-      title: "Data-Driven Insights",
-      text: "Gain valuable insights into your herd's composition and performance with detailed breed information.",
-    },
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: "Community Support",
-      text: "Connect with other farmers and experts to share knowledge and best practices for breed management.",
-    },
-  ].map((item, idx) => (
-    <div
-      key={idx}
-      className="flex flex-col gap-4 items-center text-center p-6 
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              {
+                icon: <Search className="w-6 h-6" />,
+                title: "Accurate Identification",
+                text: "Our tool uses advanced ML algorithms to accurately identify cattle and buffalo breeds from images.",
+              },
+              {
+                icon: <BarChart3 className="w-6 h-6" />,
+                title: "Data-Driven Insights",
+                text: "Gain valuable insights into your herd's composition and performance with detailed breed information.",
+              },
+              {
+                icon: <Users className="w-6 h-6" />,
+                title: "Community Support",
+                text: "Connect with other farmers and experts to share knowledge and best practices for breed management.",
+              },
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="flex flex-col gap-4 items-center text-center p-6 
                  bg-[var(--secondary-bg)] rounded-xl 
                  shadow-md hover:shadow-xl 
                  transform transition-all duration-500 hover:scale-105"
-    >
-      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-200 text-green-700">
-        {item.icon}
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-lg font-bold">{item.title}</h2>
-        <p className="text-sm">{item.text}</p>
-      </div>
-    </div>
-  ))}
-</div>
+              >
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-200 text-green-700">
+                  {item.icon}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h2 className="text-lg font-bold">{item.title}</h2>
+                  <p className="text-sm">{item.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
         </div>
 
