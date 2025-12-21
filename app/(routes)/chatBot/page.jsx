@@ -1,4 +1,5 @@
 // app/(routes)/chatBot/page.jsx
+"use client"
 import { useEffect } from "react";
 import Script from "next/script";
 import { toast } from "sonner";
