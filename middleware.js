@@ -29,16 +29,11 @@ export async function middleware(req) {
 
   if (pathname.startsWith("/api/predict")) {
     try {
-      const sessionId = req.cookies.get("__session")?.value || "no-session";
-      const identifier = `session:${sessionId.slice(0, 32)}`;
-
-      console.log("MIDDLEWARE HIT /api/predict");
-      console.log("RATE_LIMIT identifier", identifier);
+      const identifier = "prod-test-user";
 
       const { success } = await ratelimit.limit(identifier);
 
       if (!success) {
-        console.log("RATE_LIMIT BLOCKED", identifier);
         return NextResponse.json(
           { error: "Too many requests. Please wait 5 minutes." },
           { status: 429 }
@@ -48,6 +43,29 @@ export async function middleware(req) {
       console.error("Rate limit error in middleware:", error);
     }
   }
+
+
+  // if (pathname.startsWith("/api/predict")) {
+  //   try {
+  //     const sessionId = req.cookies.get("__session")?.value || "no-session";
+  //     const identifier = `session:${sessionId.slice(0, 32)}`;
+
+  //     console.log("MIDDLEWARE HIT /api/predict");
+  //     console.log("RATE_LIMIT identifier", identifier);
+
+  //     const { success } = await ratelimit.limit(identifier);
+
+  //     if (!success) {
+  //       console.log("RATE_LIMIT BLOCKED", identifier);
+  //       return NextResponse.json(
+  //         { error: "Too many requests. Please wait 5 minutes." },
+  //         { status: 429 }
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Rate limit error in middleware:", error);
+  //   }
+  // }
 
   return NextResponse.next();
 }
