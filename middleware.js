@@ -3,25 +3,17 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { NextResponse } from "next/server";
 
-// 1 request / 5 minutes (300 s)
+// 1 request / 5 minutes
 const ratelimit = new Ratelimit({
   redis: kv,
   limiter: Ratelimit.slidingWindow(1, "300 s"),
 });
 
-// Public routes (no auth)
-const publicPaths = [
-  "/",
-  "/sign-in",
-  "/sign-up",
-  "/how-it-works",
-  "/terms",
-];
+const publicPaths = ["/", "/sign-in", "/sign-up", "/how-it-works", "/terms"];
 
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
-  // ---------- 1. AUTH PROTECTION ----------
   const isPublic = publicPaths.some(
     (path) => pathname === path || pathname.startsWith(path + "/")
   );
@@ -35,25 +27,18 @@ export async function middleware(req) {
     }
   }
 
-
-
-  // ---------- 2. RATE LIMIT ONLY /api/predict ----------
-// ---------- 2. RATE LIMIT ONLY /api/predict ----------
   if (pathname.startsWith("/api/predict")) {
     try {
-      const sessionId = req.cookies.get("__session")?.value;
-      const ip =
-        req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-        req.ip ||
-        "unknown";
+      const sessionId = req.cookies.get("__session")?.value || "no-session";
+      const identifier = `session:${sessionId.slice(0, 32)}`;
 
-      const identifier = sessionId
-        ? `session:${sessionId.slice(0, 32)}`
-        : `ip:${ip}`;
+      console.log("MIDDLEWARE HIT /api/predict");
+      console.log("RATE_LIMIT identifier", identifier);
 
       const { success } = await ratelimit.limit(identifier);
 
       if (!success) {
+        console.log("RATE_LIMIT BLOCKED", identifier);
         return NextResponse.json(
           { error: "Too many requests. Please wait 5 minutes." },
           { status: 429 }
@@ -64,8 +49,6 @@ export async function middleware(req) {
     }
   }
 
-
-  // ---------- 3. CONTINUE ----------
   return NextResponse.next();
 }
 
@@ -75,6 +58,7 @@ export const config = {
     "/api/(.*)",
   ],
 };
+
 
 
 
