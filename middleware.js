@@ -38,14 +38,18 @@ export async function middleware(req) {
 
 
   // ---------- 2. RATE LIMIT ONLY /api/predict ----------
-  if (pathname === "/api/predict") {
+// ---------- 2. RATE LIMIT ONLY /api/predict ----------
+  if (pathname.startsWith("/api/predict")) {
     try {
+      const sessionId = req.cookies.get("__session")?.value;
       const ip =
         req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
         req.ip ||
         "unknown";
 
-      const identifier = `ip:${ip}`;
+      const identifier = sessionId
+        ? `session:${sessionId.slice(0, 32)}`
+        : `ip:${ip}`;
 
       const { success } = await ratelimit.limit(identifier);
 
@@ -59,6 +63,7 @@ export async function middleware(req) {
       console.error("Rate limit error in middleware:", error);
     }
   }
+
 
   // ---------- 3. CONTINUE ----------
   return NextResponse.next();
@@ -97,6 +102,9 @@ export const config = {
 
 
 
+
+
+// Actual Working
 // // middleware.js - FIXED VERSION
 // import { Ratelimit } from "@upstash/ratelimit";
 // import { kv } from "@vercel/kv";
