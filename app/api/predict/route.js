@@ -1,8 +1,32 @@
 // app/api/predict/route.js
 import { NextResponse } from "next/server";
+import { Ratelimit } from "@upstash/ratelimit";
+import { kv } from "@vercel/kv";
+
+// 1 request / 5 minutes per user
+const ratelimit = new Ratelimit({
+  redis: kv,
+  limiter: Ratelimit.slidingWindow(1, "300 s"),
+});
 
 export async function POST(request) {
   try {
+    // ----- 1. Rate limit (session-based) -----
+    const cookieHeader = request.headers.get("cookie") || "";
+    const match = cookieHeader.match(/__session=([^;]+)/);
+    const sessionId = match ? match[1] : "no-session";
+    const identifier = `session:${sessionId.slice(0, 32)}`;
+
+    const { success } = await ratelimit.limit(identifier);
+
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please wait 5 minutes." },
+        { status: 429 }
+      );
+    }
+
+    // ----- 2. Normal prediction logic (your working version) -----
     const formData = await request.formData();
     const file = formData.get("file");
     if (!file) {
@@ -11,7 +35,6 @@ export async function POST(request) {
 
     const FASTAPI_URL = process.env.FASTAPI_URL;
 
-    // Debug + safety
     if (!FASTAPI_URL) {
       console.error("FASTAPI_URL is missing in env");
       return NextResponse.json(
@@ -29,8 +52,7 @@ export async function POST(request) {
 
     console.log("FASTAPI status:", res.status);
 
-    // If FastAPI itself errors, propagate its payload + status
-    let data = null;
+    let data;
     try {
       data = await res.json();
     } catch (e) {
