@@ -1,8 +1,63 @@
-// middleware.js – temporary debug version
+// middleware.js
+import { Ratelimit } from "@upstash/ratelimit";
+import { kv } from "@vercel/kv";
 import { NextResponse } from "next/server";
 
+// 1 request / 5 minutes (300 s)
+const ratelimit = new Ratelimit({
+  redis: kv,
+  limiter: Ratelimit.slidingWindow(1, "300 s"),
+});
+
+// Public routes (no auth)
+const publicPaths = [
+  "/",
+  "/sign-in",
+  "/sign-up",
+  "/how-it-works",
+  "/terms",
+];
+
 export async function middleware(req) {
-  console.log("MIDDLEWARE HIT", req.nextUrl.pathname);
+  const { pathname } = req.nextUrl;
+
+  // ---------- 1. AUTH PROTECTION ----------
+  const isPublic = publicPaths.some(
+    (path) => pathname === path || pathname.startsWith(path + "/")
+  );
+
+  if (!isPublic) {
+    const sessionId = req.cookies.get("__session")?.value;
+    if (!sessionId) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/sign-in";
+      return NextResponse.redirect(url);
+    }
+  }
+
+  // ---------- 2. RATE LIMIT ONLY /api/predict ----------
+  if (pathname === "/api/predict") {
+    try {
+      const ip =
+        req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+        req.ip ||
+        "unknown";
+
+      const { success } = await ratelimit.limit(ip);
+
+      if (!success) {
+        return NextResponse.json(
+          { error: "Too many requests. Please wait 5 minutes." },
+          { status: 429 }
+        );
+      }
+    } catch (error) {
+      // Fail open: don't crash middleware in production
+      console.error("Rate limit error in middleware:", error);
+    }
+  }
+
+  // ---------- 3. CONTINUE ----------
   return NextResponse.next();
 }
 
@@ -12,6 +67,27 @@ export const config = {
     "/api/(.*)",
   ],
 };
+
+
+
+
+
+
+
+// // middleware.js – temporary debug version
+// import { NextResponse } from "next/server";
+
+// export async function middleware(req) {
+//   console.log("MIDDLEWARE HIT", req.nextUrl.pathname);
+//   return NextResponse.next();
+// }
+
+// export const config = {
+//   matcher: [
+//     "/((?!.*\\..*|_next/static|_next/image|favicon.ico).*)",
+//     "/api/(.*)",
+//   ],
+// };
 
 
 
