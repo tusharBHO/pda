@@ -35,6 +35,8 @@ export async function middleware(req) {
     }
   }
 
+
+
   // ---------- 2. RATE LIMIT ONLY /api/predict ----------
   if (pathname === "/api/predict") {
     try {
@@ -43,7 +45,9 @@ export async function middleware(req) {
         req.ip ||
         "unknown";
 
-      const { success } = await ratelimit.limit(ip);
+      const identifier = `ip:${ip}`;
+
+      const { success } = await ratelimit.limit(identifier);
 
       if (!success) {
         return NextResponse.json(
@@ -52,7 +56,6 @@ export async function middleware(req) {
         );
       }
     } catch (error) {
-      // Fail open: don't crash middleware in production
       console.error("Rate limit error in middleware:", error);
     }
   }
