@@ -1,6 +1,7 @@
 // app/(routes)/breed/[species]/[breed]/page.js
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
+import { MdArrowBack } from "react-icons/md";
 import { breedsData } from "../../../../../util/data";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -11,7 +12,6 @@ import {
   MdRestaurant,
 } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { toast } from "sonner"; // ✅ import toast
 
 export default function BreedProfilePage() {
   const { species, breed } = useParams();
@@ -20,21 +20,7 @@ export default function BreedProfilePage() {
   const searchParams = useSearchParams();
   const confidenceScore = searchParams.get("confidenceScore");
 
-  const breedData = breedsData[species]?.find(
-    (b) => b.name === decodedBreed
-  );
-
-  // ✅ Toast on page load for testing
-  useEffect(() => {
-    if (breedData) {
-      toast.success(`Loaded breed: ${breedData.name}`, { duration: 3000 });
-      if (confidenceScore) {
-        toast(`Confidence Score: ${confidenceScore}`, { variant: "info", duration: 3000 });
-      }
-    } else {
-      toast.error("Breed not found", { duration: 3000 });
-    }
-  }, [breedData, confidenceScore]);
+  const breedData = breedsData[species]?.find((b) => b.name === decodedBreed);
 
   if (!breedData) {
     return (
@@ -47,13 +33,26 @@ export default function BreedProfilePage() {
   return (
     <div className="pt-20 font-sans">
       {/* Back Button */}
+      {/* Back Button */}
+      {/* Back Button */}
       <button
         onClick={() => router.back()}
-        className="fixed top-20 left-4 px-3 py-1 rounded-lg text-xs font-medium
-                   bg-green-600 text-white shadow-md hover:shadow-lg
-                   hover:scale-105 transition-all"
+        className="
+    fixed 
+    top-21 right-5 sm:top-24 sm:right-8
+    flex items-center gap-1
+    px-3 py-2
+    rounded-xl sm:rounded-lg
+    text-sm sm:text-md font-medium
+    btn-theme
+    shadow-md hover:shadow-lg
+    hover:scale-105
+    transition-all duration-200
+    z-[999]
+  "
       >
-        Back
+        <MdArrowBack className="text-lg sm:text-xl" />
+        <span className="hidden sm:inline">Back</span>
       </button>
 
       <div className="container mx-auto px-4">
@@ -77,8 +76,10 @@ export default function BreedProfilePage() {
                        shadow-lg hover:shadow-xl
                        transition-all"
           >
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center
-                            border-b-4 border-green-500 pb-4 mb-6">
+            <div
+              className="flex flex-col md:flex-row md:justify-between md:items-center
+                            border-b-4 border-green-500 pb-4 mb-6"
+            >
               <h1 className="text-3xl font-bold">{breedData.name}</h1>
 
               {confidenceScore && (
@@ -141,8 +142,7 @@ export default function BreedProfilePage() {
                 key={i}
                 className="px-4 py-2 rounded-full text-sm font-medium
                            bg-green-100 text-green-800
-                           shadow-md hover:shadow-lg
-                           hover:scale-105 transition-all"
+                           shadow-md "
               >
                 {use}
               </span>
@@ -163,8 +163,7 @@ export default function BreedProfilePage() {
               <div
                 key={i}
                 className="p-6 rounded-2xl bg-[var(--secondary-bg)]
-                           shadow-lg hover:shadow-xl
-                           hover:scale-[1.02] transition-all"
+                           shadow-lg "
               >
                 <h3 className="text-xl font-semibold flex items-center mb-2">
                   <IoIosCheckmarkCircleOutline className="text-green-600 mr-2 text-2xl" />
@@ -178,26 +177,44 @@ export default function BreedProfilePage() {
           {/* Right */}
           <div className="space-y-4">
             {/* Milk Yield */}
-            <div className="p-6 rounded-2xl bg-[var(--secondary-bg)]
-                            shadow-lg hover:shadow-xl transition-all">
+            <div
+              className="p-6 rounded-2xl bg-[var(--secondary-bg)]
+                            shadow-lg hover:shadow-xl transition-all"
+            >
               <h2 className="flex items-center text-xl font-semibold mb-4">
                 <MdLocalDrink className="mr-2 text-blue-600 text-2xl" />
                 Milk Yield
               </h2>
               <div className="grid sm:grid-cols-2 gap-2 text-sm">
-                <p><b>Avg/Day:</b> {breedData.milkYield.averagePerDay}</p>
-                <p><b>Fat %:</b> {breedData.milkYield.fatPercent}</p>
-                <p><b>Protein %:</b> {breedData.milkYield.proteinPercent}</p>
-                <p><b>SNF %:</b> {breedData.milkYield.snfPercent}</p>
-                <p><b>Lactation:</b> {breedData.milkYield.lactationYield}</p>
-                <p><b>Length:</b> {breedData.milkYield.lactationLength}</p>
-                <p><b>A2 Milk:</b> {breedData.milkYield.a2Milk ? "Yes" : "No"}</p>
+                <p>
+                  <b>Avg/Day:</b> {breedData.milkYield.averagePerDay}
+                </p>
+                <p>
+                  <b>Fat %:</b> {breedData.milkYield.fatPercent}
+                </p>
+                <p>
+                  <b>Protein %:</b> {breedData.milkYield.proteinPercent}
+                </p>
+                <p>
+                  <b>SNF %:</b> {breedData.milkYield.snfPercent}
+                </p>
+                <p>
+                  <b>Lactation:</b> {breedData.milkYield.lactationYield}
+                </p>
+                <p>
+                  <b>Length:</b> {breedData.milkYield.lactationLength}
+                </p>
+                <p>
+                  <b>A2 Milk:</b> {breedData.milkYield.a2Milk ? "Yes" : "No"}
+                </p>
               </div>
             </div>
 
             {/* Diet */}
-            <div className="p-6 rounded-2xl bg-[var(--secondary-bg)]
-                            shadow-lg hover:shadow-xl transition-all">
+            <div
+              className="p-6 rounded-2xl bg-[var(--secondary-bg)]
+                            shadow-lg hover:shadow-xl transition-all"
+            >
               <h2 className="flex items-center text-xl font-semibold mb-4">
                 <MdRestaurant className="mr-2 text-green-600 text-2xl" />
                 Diet & Feeding

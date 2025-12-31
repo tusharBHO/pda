@@ -3,8 +3,11 @@
 
 import Link from "next/link";
 import { X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const Sidebar = ({ isOpen, onClose, navItems }) => {
+  const pathname = usePathname();
+
   return (
     <div
       className={`fixed inset-0 z-50 transition-opacity duration-300
@@ -33,20 +36,28 @@ const Sidebar = ({ isOpen, onClose, navItems }) => {
 
         {/* Navigation */}
         <nav className="flex flex-col gap-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              onClick={onClose}
-              className="
-                text-2xl font-medium py-2 px-3 rounded-lg
-                transition-all duration-200
-                hover:bg-[var(--secondary)]
-              "
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={onClose}
+                className={`
+                  text-2xl font-medium py-2 px-3 rounded-lg
+                  transition-all duration-200
+
+                  ${isActive ? "text-[var(--primary)]" : "text-theme"}
+
+                  hover:text-[var(--primary)]
+                  hover:bg-[color-mix(in srgb, var(--secondary) 12%, transparent)]
+                `}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </div>

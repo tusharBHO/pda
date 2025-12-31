@@ -1,5 +1,6 @@
 // app/components/ContactUs.jsx
 "use client";
+
 import React, { useState } from "react";
 import { toast } from "sonner";
 
@@ -9,7 +10,6 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,38 +18,22 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, email, message } = formData;
+    // ✅ Validation in JS
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.warning("Please fill in all fields ⚠️");
+      return;
+    }
 
-    // 🔔 Validation toasts
-    if (!name.trim()) {
-      toast.warning("Please enter your name");
-      return;
-    }
-    if (!email.trim()) {
-      toast.warning("Please enter your email");
-      return;
-    }
-    if (!message.trim()) {
-      toast.warning("Please write a message");
-      return;
-    }
+    const toastId = toast.loading("Sending your message, please wait... ⏳");
 
     try {
-      setLoading(true);
-      const toastId = toast.loading("Sending your message...");
-
-      // ⏳ Simulate API call (replace with real API later)
-      await new Promise((res) => setTimeout(res, 1500));
-
-      toast.success("Message sent successfully! 📩", {
-        id: toastId,
-      });
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      toast.success("Message sent successfully ✅", { id: toastId });
 
       setFormData({ name: "", email: "", message: "" });
-    } catch (err) {
-      toast.error("Failed to send message. Please try again.");
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      toast.error("Failed to send your message ❌", { id: toastId });
+      console.error("Contact form error:", error);
     }
   };
 
@@ -59,9 +43,7 @@ const ContactUs = () => {
         className="w-full max-w-md rounded-2xl shadow-lg p-6"
         style={{ backgroundColor: "var(--secondary-bg)" }}
       >
-        <h2 className="text-2xl font-bold text-center mb-4">
-          Contact Us
-        </h2>
+        <h2 className="text-2xl font-bold text-center mb-4">Contact Us</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
@@ -71,9 +53,7 @@ const ContactUs = () => {
             onChange={handleChange}
             placeholder="Your Name"
             className="w-full p-2.5 rounded-lg border border-gray-300
-              bg-transparent focus:outline-none
-              focus:ring-2 focus:ring-green-400"
-            disabled={loading}
+              bg-transparent focus:outline-none focus:ring-2 focus:ring-green-400"
           />
 
           <input
@@ -83,9 +63,7 @@ const ContactUs = () => {
             onChange={handleChange}
             placeholder="Your Email"
             className="w-full p-2.5 rounded-lg border border-gray-300
-              bg-transparent focus:outline-none
-              focus:ring-2 focus:ring-green-400"
-            disabled={loading}
+              bg-transparent focus:outline-none focus:ring-2 focus:ring-green-400"
           />
 
           <textarea
@@ -95,19 +73,14 @@ const ContactUs = () => {
             placeholder="Your Message"
             rows={4}
             className="w-full p-2.5 rounded-lg border border-gray-300
-              bg-transparent resize-none focus:outline-none
-              focus:ring-2 focus:ring-green-400"
-            disabled={loading}
+              bg-transparent resize-none focus:outline-none focus:ring-2 focus:ring-green-400"
           />
 
           <button
             type="submit"
-            disabled={loading}
-            className="mt-3 py-2.5 bg-green-600 text-white
-              font-semibold rounded-lg hover:bg-green-700
-              disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            className="mt-3 py-2.5 font-semibold rounded-lg btn-theme transition hover:scale-105"
           >
-            {loading ? "Sending..." : "Send Message"}
+            Send Message
           </button>
         </form>
       </div>

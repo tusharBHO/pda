@@ -60,16 +60,18 @@ export default function Navbar() {
 
   return (
     <nav
-  className="fixed top-0 left-0 w-full z-50 shadow-sm"
-  style={{
-    backgroundColor: "var(--background)",
-    color: "var(--text-color)",
-    borderBottom:
-      theme === "dark" ? "1px solid rgba(255, 255, 255, 0.12)" : "none",
-  }}
->
-
+      className="fixed top-0 left-0 w-full z-50 shadow-sm"
+      style={{
+        backgroundColor: "var(--background)",
+        color: "var(--text-color)",
+        borderBottom:
+          theme === "dark"
+            ? "1px solid rgba(255, 255, 255, 0.12)"
+            : "none",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+
         {/* ========== MOBILE NAVBAR ========== */}
         <div className="flex items-center justify-between w-full md:hidden">
           <div className="flex items-center space-x-2">
@@ -80,23 +82,27 @@ export default function Navbar() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="font-semibold text-lg">Bharat Pashudhan</span>
+            <span className="font-semibold text-lg">
+              Bharat Pashudhan
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
+
             {/* Theme Toggle */}
-           <button
+            <button
               onClick={toggleTheme}
-              className="p-2 rounded-full hover-shadow"
+              className="icon-btn"
             >
               {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
             </button>
 
+            {/* Profile */}
             {isSignedIn && (
               <button
                 id="profile-btn"
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="w-8 h-8 rounded-full overflow-hidden border-2 border-gray-300"
+                className="w-8 h-8 overflow-hidden border-2 border-gray-300 rounded-3xl"
               >
                 <img
                   src={user.imageUrl}
@@ -106,8 +112,12 @@ export default function Navbar() {
               </button>
             )}
 
-            <button onClick={() => setSidebarOpen(true)}>
-              <Menu className="w-6 h-6" />
+            {/* Menu */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              
+            >
+              <Menu size={26} />
             </button>
           </div>
         </div>
@@ -122,7 +132,9 @@ export default function Navbar() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="font-semibold text-lg">Bharat Pashudhan</span>
+            <span className="font-semibold text-lg">
+              Bharat Pashudhan
+            </span>
           </div>
 
           <div className="flex items-center space-x-8">
@@ -141,16 +153,17 @@ export default function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full hover-shadow"
+              className="icon-btn"
             >
               {theme === "light" ? <Moon size={22} /> : <Sun size={22} />}
             </button>
 
+            {/* Profile */}
             {isSignedIn && (
               <button
                 id="profile-btn"
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300"
+                className=" w-10 h-10 overflow-hidden border-2 border-gray-300 rounded-3xl"
               >
                 <img
                   src={user.imageUrl}

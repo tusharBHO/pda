@@ -1,6 +1,7 @@
 // app/page.js
 "use client";
 
+// app/page.js
 import Link from "next/link";
 import { Search, BarChart3, Users } from "lucide-react";
 import ContactUs from "./components/ContactUs";
@@ -11,7 +12,6 @@ export default function HomePage() {
     <main className="flex min-h-screen items-center justify-center pt-16 px-6 font-sans">
       {/* REMOVED text-gray-* → now inherits from global theme */}
       <div className="min-h-screen flex flex-col">
-
         {/* ================= HERO SECTION ================= */}
         <div
           className="relative flex flex-col items-center rounded-3xl justify-center min-h-[50vh] sm:min-h-[60vh] p-6 mt-2 sm:p-8 bg-cover bg-center"
@@ -22,7 +22,7 @@ export default function HomePage() {
           <div className="flex flex-col gap-4 text-center max-w-2xl">
             {/* White text is OK here because background is dark */}
             <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight">
-              Smart ML Based Breed Detection for Cattle and Buffaloes
+              Smart AI & ML-Based Breed Detection for Cattle and Buffaloes
             </h1>
             <h2 className="text-base sm:text-lg text-white/90">
               Identify breeds instantly with our advanced image recognition
@@ -33,9 +33,8 @@ export default function HomePage() {
           <Link
             href="/BreedDetection"
             className="mt-8 flex items-center justify-center h-12 px-8 
-              bg-gradient-to-r from-green-600 to-green-700 
-              text-white text-base font-semibold rounded-xl shadow-lg 
-              hover:from-green-500 hover:to-green-600 
+               text-base font-semibold rounded-xl shadow-lg border
+              btn-theme
               hover:shadow-xl hover:scale-105 
               transition-all duration-300 ease-in-out"
           >
@@ -91,7 +90,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
         </div>
 
         {/* ================= CTA SECTION ================= */}

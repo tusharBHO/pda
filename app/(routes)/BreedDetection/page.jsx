@@ -1,70 +1,48 @@
 // app/(routes)/BreedDetection/page.jsx
 "use client";
-
-import { useUser } from "@clerk/nextjs";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Upload } from "lucide-react";
 import { breedsData } from "../../../util/data";
-import { toast } from "sonner";
 
-export default function BreedDetectionPage() {
-  const { isSignedIn, isLoaded } = useUser();
-  const router = useRouter();
-
+export default function BreedDetection() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!isLoaded) return;
-    if (!isSignedIn) {
-      router.replace("/sign-in?redirect_url=/BreedDetection");
-    }
-  }, [isLoaded, isSignedIn, router]);
+  const router = useRouter();
 
-  useEffect(() => {
-    if (result) {
-      const species =
-        result.breed === "Murrah" ||
-        result.breed === "Toda" ||
-        result.breed === "Jaffrabadi" ||
-        result.breed === "Pandharpuri"
-          ? "Buffalo"
-          : "Cow";
-
-      router.push(
-        `/breed/${species}/${result.breed}?confidenceScore=${result.confidence}`
-      );
-    }
-  }, [result, router]);
-
-  if (!isLoaded || !isSignedIn) {
-    return null; // or a loader
-  }
-
+  /* =====================
+     HANDLE IMAGE UPLOAD
+  ====================== */
   const handleImageUpload = (event) => {
     const f = event.target.files?.[0];
     if (!f) return;
 
     if (!f.type.startsWith("image/")) {
-      toast.error("Please upload a valid image file (PNG, JPG, JPEG)");
+      setError("Please upload an image file.");
       return;
     }
 
     setFile(f);
     setPreview(URL.createObjectURL(f));
+    setError(null);
     setResult(null);
   };
 
+  /* =====================
+     HANDLE SUBMIT
+  ====================== */
   const handleSubmit = async () => {
     if (!file) {
-      toast.error("No file selected");
+      setError("No file selected");
       return;
     }
 
     setLoading(true);
+    setError(null);
     setResult(null);
 
     try {
@@ -74,10 +52,8 @@ export default function BreedDetectionPage() {
       const res = await fetch("/api/predict", {
         method: "POST",
         body: fd,
-        credentials: "include",
       });
 
-      // ❌ no 429 check anymore
       if (!res.ok) {
         const text = await res.text();
         throw new Error(text || "Prediction failed");
@@ -98,32 +74,54 @@ export default function BreedDetectionPage() {
           }
         }
 
-        toast.success(`Prediction successful: ${data.breed}`);
         setResult({ ...data, details: matchedData });
       } else {
-        toast.warning(
-          "Image quality is poor. Please upload a clearer image."
-        );
+        alert("Image quality is poor. Please upload a clearer image.");
         setPreview(null);
       }
     } catch (err) {
-      toast.error(err.message || "Something went wrong during prediction");
+      setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
+  /* =====================
+     REDIRECT ON RESULT
+  ====================== */
+  useEffect(() => {
+    if (result) {
+      const species =
+        result.breed === "Murrah" ||
+        result.breed === "Toda" ||
+        result.breed === "Jaffrabadi" ||
+        result.breed === "Pandharpuri"
+          ? "Buffalo"
+          : "Cow";
+
+      router.push(
+        `/breed/${species}/${result.breed}?confidenceScore=${result.confidence}`
+      );
+    }
+  }, [result, router]);
+
+  /* =====================
+     UI
+  ====================== */
   return (
     <div className="min-h-screen flex flex-col transition-theme">
       <main className="flex-grow px-4 pb-6 flex items-center justify-center">
         <div className="w-full max-w-2xl">
+          {/* Heading */}
           <div className="text-center pt-5 pb-4">
             <h2 className="text-3xl font-bold">Upload Image</h2>
             <p className="mt-2 opacity-80">
-              For best results, request will timeout after 30 seconds if model is slow.
+              For best results, ensure the animal is clearly visible and
+              well-lit.
             </p>
           </div>
 
+          {/* Upload Box */}
           <div
             className="
               flex flex-col items-center justify-center
@@ -147,13 +145,17 @@ export default function BreedDetectionPage() {
                 <p className="font-bold">Drag and drop image here</p>
                 <p className="text-sm my-1 opacity-80">or</p>
 
+                {/* Browse Button */}
                 <label
                   className="
-                    mt-2 flex items-center justify-center gap-2
-                    rounded-lg px-5 py-2 text-sm font-bold cursor-pointer
-                    border border-theme shadow-theme transition-theme
-                    hover:scale-105
-                  "
+    mt-2 flex items-center justify-center gap-2
+    rounded-lg px-5 py-2 text-sm font-bold cursor-pointer
+    border border-theme shadow-theme
+    transition-all duration-300 ease-out
+
+    hover:scale-105
+    hover:shadow-lg
+  "
                   style={{
                     backgroundColor: "var(--background)",
                     color: "var(--text-color)",
@@ -177,12 +179,13 @@ export default function BreedDetectionPage() {
             </p>
           )}
 
+          {/* Submit Button */}
           {preview && (
             <button
               onClick={handleSubmit}
               disabled={loading}
               className="
-                w-full mt-6 rounded-lg py-3 font-bold text-white
+                w-full mt-6 rounded-lg py-3 font-bold
                 transition-theme shadow-theme
                 disabled:opacity-50
               "
@@ -190,9 +193,20 @@ export default function BreedDetectionPage() {
                 backgroundColor: "var(--primary)",
               }}
             >
-              {loading ? "Predicting..." : "Recognize Breed"}
+              {loading ? (
+                <div className="flex items-center justify-center gap-1 h-6">
+                  <span className="loader-bar"></span>
+                  <span className="loader-bar"></span>
+                  <span className="loader-bar"></span>
+                  <span className="loader-bar"></span>
+                </div>
+              ) : (
+                "Recognize Breed"
+              )}
             </button>
           )}
+
+          {error && <p className="mt-4 text-center text-red-500">{error}</p>}
         </div>
       </main>
     </div>

@@ -21,7 +21,7 @@
   --background: #121212;
   --text-color: #e5e7eb; /* gray-200 */
   --secondary-bg: #1e1e1e; /* cards, sidebar */
-  --border-color: #374151; /* gray-700 */
+  --border-color: #e0feeb; /* gray-700 */
   --primary: #1b5e20;
   --accent: #66bb6a;
   --placeholder-color: rgba(255, 255, 255, 0.55);
@@ -109,4 +109,127 @@ select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 1px var(--primary);
+}
+
+/* =========================
+   THEME-AWARE SCALE LOADER
+========================= */
+
+.loader-bar {
+  width: 4px;
+  height: 100%;
+  background-color: #000000; /* BLACK for LIGHT theme */
+  border-radius: 2px;
+  animation: scaleLoader 1.2s infinite ease-in-out;
+  opacity: 0.85;
+}
+
+/* Accent bars for depth (light) */
+.loader-bar:nth-child(2),
+.loader-bar:nth-child(4) {
+  background-color: #222222;
+  opacity: 0.75;
+}
+
+/* 🌙 DARK THEME OVERRIDE */
+[data-theme="dark"] .loader-bar {
+  background-color: var(--primary);
+}
+
+[data-theme="dark"] .loader-bar:nth-child(2),
+[data-theme="dark"] .loader-bar:nth-child(4) {
+  background-color: var(--accent);
+}
+
+/* Animation delays */
+.loader-bar:nth-child(1) { animation-delay: 0s; }
+.loader-bar:nth-child(2) { animation-delay: 0.15s; }
+.loader-bar:nth-child(3) { animation-delay: 0.3s; }
+.loader-bar:nth-child(4) { animation-delay: 0.45s; }
+
+@keyframes scaleLoader {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* =========================
+   PROFILE BUTTON THEME
+========================= */
+.btn-theme {
+  background-color: #e0feeb; /* light theme default */
+  color: black;
+  transition: all 0.3s;
+}
+
+[data-theme="dark"] .btn-theme {
+  background-color: #312622; /* brownish color in dark theme */
+  color: var(--text-color);   /* readable text in dark mode */
+}
+
+/* Logout Button Theme */
+.btn-theme-logout {
+  background-color: #ff5f5f
+; /* light theme default (red-50) */
+  color: #fef2f2
+;            /* red-600 */
+  transition: all 0.3s;
+}
+
+.btn-theme-logout:hover {
+  background-color: #ff3030
+; /* light theme hover (red-100) */
+}
+
+[data-theme="dark"] .btn-theme-logout {
+  background-color: #ff5f5f; /* brownish color in dark theme */
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .btn-theme-logout:hover {
+  background-color: #ff3030; /* slightly lighter brown on hover */
+}
+
+
+/* =========================
+   ACCOUNT PAGE – SAFE FIXES
+   (USES EXISTING THEME VARS)
+========================= */
+
+/* Prevent mobile backdrop + transform transparency bug */
+.account-layout {
+  isolation: isolate;
+  background-color: var(--background);
+}
+
+/* Sidebar must always have solid bg on mobile */
+.account-sidebar {
+  background-color: var(--secondary-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+  will-change: transform;
+}
+
+/* Desktop: let layout breathe normally */
+@media (min-width: 768px) {
+  .account-sidebar {
+    background-color: transparent;
+  }
+}
+
+/* Mobile overlay (theme-safe) */
+.account-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Account / Contact / Menu spacing */
+.account-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
