@@ -57,8 +57,9 @@ The platform allows users to upload an image and get:
 ## 📸 Screenshots
 
 <!-- Add your screenshots here -->
-![Home](./screenshots/home.png)
-![Result](./screenshots/result.png)
+![Home](./screenshots/HomePage.png)
+![Result](./screenshots/Upload.png)
+![Result](./screenshots/Data.png)
 
 ---
 
