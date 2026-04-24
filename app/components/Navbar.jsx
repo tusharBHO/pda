@@ -38,7 +38,7 @@ export default function Navbar() {
   const { signOut } = useClerk();
 
   const navItems = [
-    { name: "Home", href: "/" },
+    // { name: "Home", href: "/" },
     { name: "BreedDetection", href: "/BreedDetection" },
     { name: "Database", href: "/Database" },
     { name: "HowItWorks", href: "/how-it-works" },
@@ -74,8 +74,8 @@ export default function Navbar() {
 
         {/* ========== MOBILE NAVBAR ========== */}
         <div className="flex items-center justify-between w-full md:hidden">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full overflow-hidden">
+          {/* <div className="flex items-center space-x-2">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
               <img
                 src="/logo07.png"
                 alt="Logo"
@@ -83,9 +83,21 @@ export default function Navbar() {
               />
             </div>
             <span className="font-semibold text-lg">
-              Bharat Pashudhan
+              Pashugyan
             </span>
-          </div>
+          </div> */}
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
+              <img
+                src="/logo07.png"
+                alt="Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <span className="font-semibold text-lg">
+              Pashugyan
+            </span>
+          </Link>
 
           <div className="flex items-center gap-2">
 
@@ -124,8 +136,8 @@ export default function Navbar() {
 
         {/* ========== DESKTOP NAVBAR ========== */}
         <div className="hidden md:flex items-center justify-between w-full">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full overflow-hidden">
+          {/* <div className="flex items-center space-x-2">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
               <img
                 src="/logo07.png"
                 alt="Logo"
@@ -133,9 +145,21 @@ export default function Navbar() {
               />
             </div>
             <span className="font-semibold text-lg">
-              Bharat Pashudhan
+              Pashugyan
             </span>
-          </div>
+          </div> */}
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
+              <img
+                src="/logo07.png"
+                alt="Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <span className="font-semibold text-lg">
+              Pashugyan
+            </span>
+          </Link>
 
           <div className="flex items-center space-x-8">
             {navItems.map((item) => (

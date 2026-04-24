@@ -12,7 +12,7 @@ const Footer = () => {
         <span className="text-sm text-center">
           © 2025{" "}
           <a href="" className="hover:underline">
-            Bharat Pashudhan™
+            Pashugyan™
           </a>
           . All Rights Reserved.
         </span>

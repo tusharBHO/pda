@@ -11,30 +11,61 @@ export default function BreedDetection() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [warning, setWarning] = useState(null);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const steps = [
+    "Uploading image...",
+    "Processing...",
+    "Identifying breed...",
+  ];
 
   const router = useRouter();
 
-  /* =====================
-     HANDLE IMAGE UPLOAD
-  ====================== */
+  //  HANDLE IMAGE UPLOAD
   const handleImageUpload = (event) => {
     const f = event.target.files?.[0];
     if (!f) return;
 
-    if (!f.type.startsWith("image/")) {
-      setError("Please upload an image file.");
+    const MAX_SIZE = 5 * 1024 * 1024;
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+    if (!allowedTypes.includes(f.type)) {
+      setError("Only JPG and PNG files are allowed.");
       return;
     }
 
-    setFile(f);
-    setPreview(URL.createObjectURL(f));
-    setError(null);
-    setResult(null);
+    if (f.size > MAX_SIZE) {
+      setError("File size must be less than 5MB.");
+      return;
+    }
+
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(f);
+
+    img.onload = () => {
+      if (img.naturalWidth < 200 || img.naturalHeight < 200) {
+        setWarning("Low resolution image. Results may be inaccurate.");
+      } else {
+        setWarning(null);
+      }
+
+      setFile(f);
+      setPreview(objectUrl);
+      setResult(null);
+      setError(null); // ✅ either null or warning
+    };
+
+    img.onerror = () => {
+      setError("Invalid image file.");
+      URL.revokeObjectURL(objectUrl);
+    };
+
+    img.src = objectUrl;
   };
 
-  /* =====================
-     HANDLE SUBMIT
-  ====================== */
+
+  //  HANDLE SUBMIT
   const handleSubmit = async () => {
     if (!file) {
       setError("No file selected");
@@ -44,6 +75,20 @@ export default function BreedDetection() {
     setLoading(true);
     setError(null);
     setResult(null);
+
+
+    setCurrentStep(0);
+    // small artificial delay (improves perceived UX)
+    await new Promise((res) => setTimeout(res, 500));
+
+    // Step progression simulation
+    const stepInterval = setInterval(() => {
+      setCurrentStep((prev) => {
+        if (prev < steps.length - 1) return prev + 1;
+        return prev;
+      });
+    }, 1200);
+
 
     try {
       const fd = new FormData();
@@ -76,26 +121,26 @@ export default function BreedDetection() {
 
         setResult({ ...data, details: matchedData });
       } else {
-        alert("Image quality is poor. Please upload a clearer image.");
+        setError("Image quality is poor. Please upload a clearer image.");
         setPreview(null);
+        setFile(null);
       }
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
+      clearInterval(stepInterval);
       setLoading(false);
     }
   };
 
-  /* =====================
-     REDIRECT ON RESULT
-  ====================== */
+  //  REDIRECT ON RESULT
   useEffect(() => {
     if (result) {
       const species =
         result.breed === "Murrah" ||
-        result.breed === "Toda" ||
-        result.breed === "Jaffrabadi" ||
-        result.breed === "Pandharpuri"
+          result.breed === "Toda" ||
+          result.breed === "Jaffrabadi" ||
+          result.breed === "Pandharpuri"
           ? "Buffalo"
           : "Cow";
 
@@ -105,9 +150,7 @@ export default function BreedDetection() {
     }
   }, [result, router]);
 
-  /* =====================
-     UI
-  ====================== */
+  //  UI
   return (
     <div className="min-h-screen flex flex-col transition-theme">
       <main className="flex-grow px-4 pb-6 flex items-center justify-center">
@@ -194,11 +237,31 @@ export default function BreedDetection() {
               }}
             >
               {loading ? (
-                <div className="flex items-center justify-center gap-1 h-6">
-                  <span className="loader-bar"></span>
-                  <span className="loader-bar"></span>
-                  <span className="loader-bar"></span>
-                  <span className="loader-bar"></span>
+                <div className="flex flex-col items-center gap-2">
+                  {steps.map((step, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 text-sm"
+                    >
+                      {index < currentStep && <span>✔</span>}
+                      {index === currentStep && (
+                        <span className="animate-spin">🔄</span>
+                      )}
+                      {index > currentStep && <span className="opacity-30">•</span>}
+
+                      <span
+                        className={
+                          index === currentStep
+                            ? "font-semibold"
+                            : index < currentStep
+                              ? "opacity-80"
+                              : "opacity-40"
+                        }
+                      >
+                        {step}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               ) : (
                 "Recognize Breed"
@@ -206,7 +269,20 @@ export default function BreedDetection() {
             </button>
           )}
 
-          {error && <p className="mt-4 text-center text-red-500">{error}</p>}
+          {error && (
+            <div className="mt-4 flex items-center gap-3 rounded-lg border border-red-400 bg-red-100 px-4 py-3 text-red-700 shadow-sm">
+              <span className="text-lg">❌</span>
+              <p className="text-sm font-medium">{error}</p>
+            </div>
+          )}
+
+          {warning && (
+            <div className="mt-4 flex items-center gap-3 rounded-lg border border-yellow-400 bg-yellow-100 px-4 py-3 text-yellow-700 shadow-sm">
+              <span>⚠️</span>
+              <p className="text-sm font-medium">{warning}</p>
+            </div>
+          )}
+
         </div>
       </main>
     </div>
