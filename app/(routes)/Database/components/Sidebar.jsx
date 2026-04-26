@@ -31,9 +31,9 @@ const Sidebar = ({
   };
 
   const hasFilters =
-    selectedRegions.length ||
-    selectedUses.length ||
-    selectedCharacteristics.length;
+    selectedRegions.length > 0 ||
+    selectedUses.length > 0 ||
+    selectedCharacteristics.length > 0;
 
   return (
     <div className="w-full md:w-72 lg:w-80 flex-shrink-0 h-auto md:h-[88vh] overflow-y-auto bg-secondary border border-theme rounded-xl p-4">
