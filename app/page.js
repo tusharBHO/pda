@@ -22,11 +22,11 @@ export default function HomePage() {
           <div className="flex flex-col gap-4 text-center max-w-2xl">
             {/* White text is OK here because background is dark */}
             <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight">
-              Smart AI & ML-Based Breed Detection for Cattle and Buffaloes
+              Identify Cow & Buffalo Breeds Instantly
             </h1>
             <h2 className="text-base sm:text-lg text-white/90">
-              Identify breeds instantly with our advanced image recognition
-              technology. Improve your herd management and productivity.
+              Upload a photo and get accurate breed details in seconds.
+              Make better decisions for your livestock.
             </h2>
           </div>
 
@@ -38,7 +38,7 @@ export default function HomePage() {
               hover:shadow-xl hover:scale-105 
               transition-all duration-300 ease-in-out"
           >
-            <span>Get Started</span>
+            <span>Try It Now</span>
           </Link>
         </div>
 
@@ -47,11 +47,10 @@ export default function HomePage() {
           <div className="flex flex-col gap-4 text-center">
             {/* REMOVED text-gray-800 */}
             <h1 className="text-3xl sm:text-4xl font-bold max-w-3xl mx-auto">
-              Why Choose Our Breed Recognition Tool?
+              Why Choose PashuGyan?
             </h1>
             <p className="text-base max-w-3xl mx-auto">
-              Our tool offers accurate and efficient breed identification,
-              helping you make informed decisions for your livestock.
+              Quickly identify breeds and get useful insights to manage your livestock better.
             </p>
           </div>
 
@@ -60,17 +59,17 @@ export default function HomePage() {
               {
                 icon: <Search className="w-6 h-6" />,
                 title: "Accurate Identification",
-                text: "Our tool uses advanced ML algorithms to accurately identify cattle and buffalo breeds from images.",
+                text: "Upload an image and get accurate breed identification within seconds.",
               },
               {
                 icon: <BarChart3 className="w-6 h-6" />,
                 title: "Data-Driven Insights",
-                text: "Gain valuable insights into your herd's composition and performance with detailed breed information.",
+                text: "Get detailed information about each breed, including characteristics and key traits.",
               },
               {
                 icon: <Users className="w-6 h-6" />,
-                title: "Community Support",
-                text: "Connect with other farmers and experts to share knowledge and best practices for breed management.",
+                title: "Simple & Easy",
+                text: "Just upload a photo — no technical knowledge required.",
               },
             ].map((item, idx) => (
               <div
@@ -97,11 +96,10 @@ export default function HomePage() {
           <div className="flex flex-col gap-2">
             {/* REMOVED text-gray-800 */}
             <h1 className="text-3xl sm:text-4xl font-bold max-w-2xl">
-              Ready to Transform Your Livestock Management?
+              Start Identifying Breeds Today
             </h1>
             <p className="text-base max-w-2xl mx-auto">
-              Start using our AI-powered breed recognition tool today and
-              experience the difference.
+              Instantly identify the breed and access complete care, feeding, and milk yield information.
             </p>
           </div>
         </div>

@@ -60,7 +60,7 @@ export default function ProfileCard({
               });
             }, 150);
           }}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl btn-theme"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl btn-theme cursor-pointer"
         >
           <User size={18} />
           Account Settings
@@ -71,8 +71,8 @@ export default function ProfileCard({
             setProfileOpen(false);
             signOut({ redirectUrl: "/" });
           }}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl btn-theme-logout"
-        >
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl btn-theme-logout cursor-pointer"
+        > 
           <LogOut size={18} />
           Logout
         </button>

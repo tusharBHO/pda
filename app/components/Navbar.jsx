@@ -46,6 +46,8 @@ export default function Navbar() {
     { name: "BreedDetection", href: "/BreedDetection" },
     { name: "Database", href: "/Database" },
     { name: "HowItWorks", href: "/how-it-works" },
+    { name: "WhatWeProvide", href: "/what-we-provide" },
+    { name: "Help & Guide", href: "/help-guide" },
   ];
 
   /* =========================
@@ -123,9 +125,9 @@ export default function Navbar() {
             {/* Desktop Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="icon-btn text-theme hover:opacity-70 transition-theme"
+              className="icon-btn text-theme hover:opacity-70 transition-theme cursor-pointer"
             >
-              {theme === "light" ? <Moon size={22} /> : <Sun size={22} />}
+              {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
             </button>
 
             {/* 🔥 DESKTOP PROFILE HOVER WRAPPER 🔥 */}
@@ -143,7 +145,7 @@ export default function Navbar() {
                 }}
               >
                 <button
-                  className="w-10 h-10 overflow-hidden border-2 border-theme rounded-full hover:opacity-80 transition-theme cursor-pointer"
+                  className="w-10 h-10 overflow-hidden border-2 border-theme rounded-full hover:opacity-80 transition-theme"
                 >
                   <img
                     src={user.imageUrl}

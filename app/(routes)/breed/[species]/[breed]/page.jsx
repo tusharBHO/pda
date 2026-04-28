@@ -25,8 +25,29 @@ export default function BreedProfilePage() {
 
   if (!breedData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Breed not found
+      <div className="min-h-screen flex items-center justify-center px-4 transition-theme">
+        <div className="max-w-md w-full bg-[var(--secondary-bg)] p-8 rounded-3xl shadow-xl text-center">
+          {/* Visual Indicator */}
+          <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-red-100">
+            <span className="text-5xl">🐄❓</span>
+          </div>
+
+          {/* Contextual Messaging */}
+          <h2 className="text-2xl font-bold mb-3">Breed Not Recognized</h2>
+          <p className="opacity-80 mb-8 text-sm leading-relaxed">
+            We couldn't confidently identify the breed from this image. The livestock might not be in our current database, or the image might be too blurry or poorly lit.
+          </p>
+
+          {/* Escape Route */}
+          <button
+            onClick={() => router.back()}
+            className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 font-bold transition-all shadow-theme hover:scale-105 active:scale-95"
+            style={{ backgroundColor: "var(--primary)", color: "#fff" }}
+          >
+            <MdArrowBack className="text-xl" />
+            Scan Another Image
+          </button>
+        </div>
       </div>
     );
   }
