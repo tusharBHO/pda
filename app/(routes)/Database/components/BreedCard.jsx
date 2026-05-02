@@ -1,48 +1,67 @@
 // app/(routes)/Database/components/BreedCard.jsx
 "use client";
-import React from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+
+// ✅ Helper (handles string/array safely)
+const getCharArray = (charactF) => {
+  if (!charactF) return [];
+  if (Array.isArray(charactF)) return charactF;
+  return charactF.split(",").map((c) => c.trim());
+};
 
 const BreedCard = ({ breed, species }) => {
   const router = useRouter();
 
-  const handleClick = () => {
-    // Show loading toast
-    const toastId = toast.loading("Details loading...");
-
-    // Delay to simulate loading
-    setTimeout(() => {
-      try {
-        // Navigate to breed page
-        router.push(`/breed/${species}/${breed.name}`);
-        // Show success toast
-        toast.success(`Details for ${breed?.name} loaded successfully`, { id: toastId });
-      } catch (error) {
-        // Show error toast if navigation fails
-        toast.error("Error loading details. Please try again.", { id: toastId });
-        console.error("Navigation error:", error);
-      }
-    }, 1200); // 1.2 second delay to show loading toast
-  };
-
   return (
     <div
-      className="bg-secondary rounded-lg overflow-hidden shadow-theme
-                 hover:shadow-lg transition-theme cursor-pointer"
-      onClick={handleClick}
+      onClick={() =>
+        router.push(`/breed/${species}/${encodeURIComponent(breed.name)}`)
+      }
+      className="group cursor-pointer rounded-xl overflow-hidden bg-secondary shadow-sm hover:shadow-md transition"
     >
-      {/* Breed image */}
-      <div
-        className="w-full h-38 bg-cover bg-center"
-        style={{
-          backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuAonuIYXLDmgjAqn1Wb2XspSNCz45Nd0qF4AjR6OskKdQdW0J3k3jDorqyAuLhaTGuEzRxcnCZt6UhZswZkIbq26uUBYnXfXSnuEXnqqQ7gVV0uDP0t6gDn10--miKyoxiY6GPYEiSqZUK7vk7uqsd0qOMzEdFykYJaYhE2_qymWUugvxyDnlRWlw4trV8cBikZVKiOpPq9-AQkXNoAnWNmJIcHRdVt3kn-ZETjW5sA8zWqrWmpY97LU1gnMRvoHn6PvcwpL4GKsZNO")`,
-        }}
-      />
-      <div className="p-4 text-theme">
-        <h3 className="text-lg font-bold">{breed?.name}</h3>
-        <p className="text-sm text-theme/70 mb-2">{breed?.originInIndia}</p>
-        <p className="text-sm">{breed?.characteristics}</p>
+      {/* Image */}
+      <div className="relative">
+        <img
+          src={breed.image}
+          className="w-full h-40 object-cover group-hover:scale-105 transition duration-300"
+        />
+
+        {/* Region */}
+        <span className="absolute top-2 left-2 text-xs bg-black/60 text-white px-2 py-1 rounded">
+          {breed.region}
+        </span>
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        <h3 className="font-semibold text-lg">{breed.name}</h3>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mt-2">
+          {breed.useF && (
+            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+              {breed.useF}
+            </span>
+          )}
+
+          {getCharArray(breed.charactF)
+            .slice(0, 2)
+            .map((tag, i) => (
+              <span
+                key={i}
+                className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded"
+              >
+                {tag}
+              </span>
+            ))}
+        </div>
+
+        {/* Milk */}
+        {breed.milkYield?.averagePerDay && (
+          <p className="text-sm mt-3 font-medium">
+            🥛 {breed.milkYield.averagePerDay}
+          </p>
+        )}
       </div>
     </div>
   );

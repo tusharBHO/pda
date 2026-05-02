@@ -1,4 +1,4 @@
-// app/(routes)/profile/preferences/page.jsx
+// // app/(routes)/profile/preferences/page.jsx
 "use client";
 import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
@@ -6,12 +6,12 @@ import { toast } from "sonner";
 
 export default function Preferences() {
   const [darkMode, setDarkMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Load saved preference
   useEffect(() => {
     const saved = localStorage.getItem("darkMode") === "true";
     setDarkMode(saved);
-    document.documentElement.classList.toggle("dark", saved);
+    setMounted(true);
   }, []);
 
   const toggleDarkMode = () => {
@@ -19,42 +19,37 @@ export default function Preferences() {
       const newValue = !prev;
       document.documentElement.classList.toggle("dark", newValue);
       localStorage.setItem("darkMode", newValue);
-      toast.success(`Switched to ${newValue ? "Dark" : "Light"} Mode`);
+      toast.success(`${newValue ? "Dark" : "Light"} mode enabled`);
       return newValue;
     });
   };
 
-  return (
-    <div className="max-w-2xl p-4">
-      <h2 className="text-xl font-semibold mb-2 text-theme">Preferences</h2>
-      <hr className="border-theme/30 mb-6" />
+  if (!mounted) return null; // Prevents hydration mismatch
 
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
+  return (
+    <div className="max-w-2xl w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="rounded-2xl shadow-sm p-6 sm:p-8 bg-[var(--secondary)] border border-[var(--accent)]">
+        <h2 className="text-xl font-bold text-theme mb-6">Appearance</h2>
+
+        <div className="flex items-center justify-between p-4 rounded-xl border border-[var(--accent)] bg-[var(--background)]">
           <div>
-            <p className="font-medium text-theme">Dark Mode</p>
-            <p className="text-sm text-theme/70">
-              Enable dark theme for the interface
-            </p>
+            <p className="font-semibold text-theme">Dark Mode</p>
+            <p className="text-sm text-theme/70 mt-0.5">Toggle the visual theme of the dashboard.</p>
           </div>
 
-          {/* Toggle */}
           <button
             onClick={toggleDarkMode}
-            className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-500 ${
-              darkMode ? "shadow-xl bg-blue-50" : "shadow-xl bg-yellow-50"
-            }`}
-          >
-            {/* Circle */}
-            <div
-              className={`w-6 h-6 flex items-center justify-center rounded-full shadow-md transform transition-all duration-500 ease-in-out ${
-                darkMode ? "translate-x-8 bg-gray-800" : "translate-x-0 bg-yellow-400"
+            className={`relative w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] ${darkMode ? "bg-indigo-600" : "bg-gray-300"
               }`}
+          >
+            <div
+              className={`w-6 h-6 flex items-center justify-center rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${darkMode ? "translate-x-8 bg-gray-900" : "translate-x-0 bg-white"
+                }`}
             >
               {darkMode ? (
-                <Moon className="w-4 h-4 text-white transition-colors duration-500" />
+                <Moon className="w-3.5 h-3.5 text-indigo-200" />
               ) : (
-                <Sun className="w-4 h-4 text-white transition-colors duration-500" />
+                <Sun className="w-3.5 h-3.5 text-yellow-500" />
               )}
             </div>
           </button>

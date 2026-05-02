@@ -1,3 +1,4 @@
+// // // app/(routes)/profile/account/page.jsx
 // app/(routes)/profile/account/page.jsx
 "use client";
 
@@ -9,14 +10,15 @@ export default function AccountDetails() {
   const { user } = useUser();
   const { signOut } = useClerk();
 
-  const [name, setName] = useState(user?.fullName || "");
+  // ✅ Prefer metadata name, fallback to Clerk name
+  const displayName = user?.unsafeMetadata?.fullName || user?.fullName || "";
+
+  const [name, setName] = useState(displayName);
   const [isEditingName, setIsEditingName] = useState(false);
   const [modalType, setModalType] = useState(null);
 
-  // ✅ Ref to prevent duplicate toast
   const hasShownToast = useRef(false);
 
-  // ✅ Show toast once after user is loaded
   useEffect(() => {
     if (user && !hasShownToast.current) {
       toast.success("Account details loaded");
@@ -26,20 +28,29 @@ export default function AccountDetails() {
 
   /* ================= NAME CHANGE ================= */
   const handleNameChange = async () => {
-    if (!name.trim()) {
+    const trimmed = name.trim();
+
+    if (!trimmed) {
       toast.warning("Name cannot be empty");
       return;
     }
 
     const id = toast.loading("Updating name...");
+
     try {
+      console.log("Updating unsafeMetadata:", trimmed);
+
       await user.update({
-        firstName: name.split(" ")[0],
-        lastName: name.split(" ")[1] || "",
+        unsafeMetadata: {
+          ...user.unsafeMetadata,
+          fullName: trimmed,
+        },
       });
+
       toast.success("Name updated successfully", { id });
       setIsEditingName(false);
-    } catch {
+    } catch (err) {
+      console.error("Update error:", err);
       toast.error("Failed to update name", { id });
     }
   };
@@ -62,12 +73,9 @@ export default function AccountDetails() {
   const handleConfirm = async () => {
     const id = toast.loading("Processing...");
     try {
-      if (modalType === "signOut") {
-        await signOut();
-      }
-      if (modalType === "signOutAll") {
-        await signOut({ session: "all" });
-      }
+      if (modalType === "signOut") await signOut();
+      if (modalType === "signOutAll") await signOut({ session: "all" });
+
       if (modalType === "delete") {
         await user.delete();
         await signOut({ redirectUrl: "/" });
@@ -85,87 +93,72 @@ export default function AccountDetails() {
   };
 
   return (
-    <div className="max-w-2xl w-full page-enter space-y-6">
-      {/* ================= ACCOUNT DETAILS ================= */}
-      <div
-        className="rounded-xl shadow-md p-4 space-y-4 transition-colors"
-        style={{
-          backgroundColor: "var(--secondary)",
-          border: "1px solid var(--accent)",
-        }}
-      >
-        <h2 className="text-lg font-semibold text-theme">Account Details</h2>
-        <hr className="border-theme/30" />
+    <div className="max-w-2xl w-full page-enter space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
-        <div className="flex flex-col sm:flex-row items-center gap-4">
-          <img
-            src={user?.imageUrl}
-            alt="Avatar"
-            className="w-24 h-24 rounded-full object-cover shadow-md"
-          />
+      {/* ================= ACCOUNT PROFILE CARD ================= */}
+      <div className="rounded-2xl shadow-sm p-6 space-y-6 bg-[var(--secondary)] border border-[var(--accent)]">
+        <h2 className="text-xl font-bold text-theme">Profile Information</h2>
 
-          <div className="flex-1 space-y-2 text-center sm:text-left">
-            <p className="text-xl font-medium text-theme">{user?.fullName}</p>
-            <p className="text-theme/70 break-words">
-              {user?.primaryEmailAddress?.emailAddress}
-            </p>
-
-            {/* Change Avatar */}
-            <label
-              className="inline-block mt-2 px-3 py-1.5 rounded-md border cursor-pointer
-                         transition-all hover:scale-105 btn-theme"
-              style={{ borderColor: "var(--accent)" }}
-            >
-              Change avatar
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <div className="relative group">
+            <img
+              src={user?.imageUrl}
+              alt="Avatar"
+              className="w-24 h-24 rounded-full object-cover shadow-md border-2 border-[var(--accent)]"
+            />
+            <label className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-xs font-semibold rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+              Upload
               <input type="file" className="hidden" onChange={handleAvatarChange} />
             </label>
+          </div>
 
-            {/* ================= NAME EDIT ================= */}
-            <div className="mt-4">
-              <p className="text-sm text-theme/70">Full Name</p>
+          <div className="flex-1 space-y-4 text-center sm:text-left w-full">
+            <div>
+              <p className="text-2xl font-bold text-theme">{displayName}</p>
+              <p className="text-theme/70 font-medium break-words">
+                {user?.primaryEmailAddress?.emailAddress}
+              </p>
+            </div>
 
+            <div className="pt-2">
               {isEditingName ? (
-                <div className="flex flex-col sm:flex-row gap-2 mt-2">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="p-2 rounded-md border text-sm"
+                    className="flex-1 p-2.5 rounded-lg border focus:ring-2 focus:ring-[var(--primary)] focus:outline-none transition-shadow"
                     style={{
                       borderColor: "var(--accent)",
                       backgroundColor: "var(--background)",
                       color: "var(--text-color)",
                     }}
+                    autoFocus
                   />
-
-                  <button
-                    onClick={handleNameChange}
-                    className="px-3 py-1 rounded-md btn-theme"
-                  >
-                    Save
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setIsEditingName(false);
-                      setName(user?.fullName || "");
-                      toast("Edit cancelled");
-                    }}
-                    className="px-3 py-1 rounded-md border btn-theme"
-                    style={{ borderColor: "var(--accent)" }}
-                  >
-                    Cancel
-                  </button>
+                  <div className="flex gap-2 justify-center sm:justify-start">
+                    <button
+                      onClick={handleNameChange}
+                      className="px-4 py-2.5 rounded-lg bg-[var(--primary)] hover:brightness-110 text-white font-medium transition-colors"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsEditingName(false);
+                        setName(displayName);
+                        toast("Edit cancelled");
+                      }}
+                      className="px-4 py-2.5 rounded-lg border border-[var(--accent)] hover:bg-[var(--background)] transition-colors text-theme"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <button
-                  onClick={() => {
-                    setIsEditingName(true);
-                    toast.info("You can now edit your name");
-                  }}
-                  className="mt-2 px-3 py-1 rounded-md border btn-theme"
-                  style={{ borderColor: "var(--accent)" }}
+                  onClick={() => setIsEditingName(true)}
+                  className="text-sm px-4 py-2.5 rounded-lg border border-[var(--accent)] hover:bg-[var(--background)] transition-colors font-medium text-theme"
                 >
-                  Change full name
+                  Edit Full Name
                 </button>
               )}
             </div>
@@ -173,81 +166,57 @@ export default function AccountDetails() {
         </div>
       </div>
 
-      {/* ================= SYSTEM ================= */}
-      <div
-        className="rounded-xl shadow-md p-4 space-y-4 transition-colors"
-        style={{
-          backgroundColor: "var(--secondary)",
-          border: "1px solid var(--accent)",
-        }}
-      >
-        <h2 className="text-lg font-semibold text-theme">System</h2>
-        <hr className="border-theme/30" />
+      {/* ================= SYSTEM SETTINGS CARD ================= */}
+      <div className="rounded-2xl shadow-sm p-6 space-y-4 bg-[var(--secondary)] border border-[var(--accent)]">
+        <h2 className="text-xl font-bold text-theme mb-4">System Settings</h2>
 
-        <SystemRow
-          label="Sign out"
-          onClick={() => {
-            setModalType("signOut");
-            toast.warning("You are about to sign out");
-          }}
-        />
-
-        <SystemRow
-          label="Sign out of all sessions"
-          onClick={() => {
-            setModalType("signOutAll");
-            toast.warning("Signing out from all sessions");
-          }}
-        />
-
-        <SystemRow
-          label="Delete account"
-          danger
-          onClick={() => {
-            setModalType("delete");
-            toast.error("This action is permanent");
-          }}
-        />
+        <div className="space-y-3">
+          <SystemRow
+            label="Sign out"
+            onClick={() => setModalType("signOut")}
+          />
+          <SystemRow
+            label="Sign out of all sessions"
+            onClick={() => setModalType("signOutAll")}
+          />
+          <SystemRow
+            label="Delete account"
+            danger
+            onClick={() => setModalType("delete")}
+          />
+        </div>
       </div>
 
       {/* ================= CONFIRM MODAL ================= */}
       {modalType && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center
-                     bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity"
           onClick={() => setModalType(null)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="rounded-xl shadow-xl p-6 w-80 text-center
-                       transition-transform scale-100"
-            style={{
-              backgroundColor: "var(--secondary)",
-              border: "1px solid var(--accent)",
-            }}
+            className="rounded-2xl shadow-2xl p-6 w-full max-w-sm text-center transform transition-all scale-100 bg-[var(--secondary)] border border-[var(--accent)]"
           >
-            <h2 className="text-lg font-semibold text-theme mb-2">
-              Confirm action
-            </h2>
-
-            <p className="text-theme/70 text-sm mb-4">
-              Are you sure you want to continue?
+            <h2 className="text-xl font-bold text-theme mb-2">Confirm action</h2>
+            <p className="text-theme/70 text-sm mb-6">
+              {modalType === "delete"
+                ? "This action cannot be undone. This will permanently delete your account."
+                : "Are you sure you want to proceed?"}
             </p>
 
-            <div className="flex justify-center gap-3">
-              <button
-                onClick={() => setModalType(null)}
-                className="px-4 py-2 rounded-md border btn-theme"
-                style={{ borderColor: "var(--accent)" }}
-              >
-                Cancel
-              </button>
-
+            <div className="flex flex-col gap-3">
               <button
                 onClick={handleConfirm}
-                className="px-4 py-2 rounded-md btn-theme-logout"
+                className={`w-full px-4 py-2.5 rounded-lg font-semibold text-white transition-colors ${modalType === "delete" ? "bg-red-600 hover:bg-red-700" : "bg-[var(--primary)] hover:brightness-110"
+                  }`}
               >
-                Confirm
+                Yes, continue
+              </button>
+              <button
+                onClick={() => setModalType(null)}
+                className="w-full px-4 py-2.5 rounded-lg border border-[var(--accent)] hover:bg-[var(--background)] font-medium transition-colors text-theme"
+              >
+                Cancel
               </button>
             </div>
           </div>
@@ -260,12 +229,14 @@ export default function AccountDetails() {
 /* ================= SMALL HELPER ================= */
 function SystemRow({ label, onClick, danger }) {
   return (
-    <div className="flex justify-between items-center">
-      <p className="text-theme">{label}</p>
+    <div className="flex justify-between items-center p-3 rounded-lg hover:bg-[var(--background)] transition-colors border border-transparent hover:border-[var(--accent)]">
+      <p className="font-medium text-theme">{label}</p>
       <button
         onClick={onClick}
-        className={`px-3 py-1 rounded-md border transition-colors
-          ${danger ? "btn-theme-logout" : "btn-theme"}`}
+        className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-colors ${danger
+          ? "text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/40"
+          : "border border-[var(--accent)] hover:bg-[var(--background)] text-theme"
+          }`}
       >
         {label}
       </button>
